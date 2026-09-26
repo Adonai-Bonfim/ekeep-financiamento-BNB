@@ -234,7 +234,7 @@ const SOLUTIONS = [
       "Posição de estoque mais confiável para decisões de compra",
     ],
     segments: "fábricas, indústrias e lojas de varejo.",
-    segmentsLabel: "Para:",
+    segmentsLabel: "Indicado para:",
   },
 ];
 
