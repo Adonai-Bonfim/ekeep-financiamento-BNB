@@ -25,7 +25,7 @@ try {
           if (el.closest(".skip-link") || el.tagName === "SOURCE") return false;
           // SVG artwork is clipped by its viewBox; carousel items are intentionally
           // clipped by their own scroll region, whose viewport is still checked.
-          if (el.closest(".brand-logo") && el.tagName.toLowerCase() === "image") return false;
+          if (el.closest(".brand-logo, .credentials-badge") && el.tagName.toLowerCase() === "image") return false;
           const carousel = el.closest(".testimonial-grid");
           if (carousel && el !== carousel && getComputedStyle(carousel).overflowX === "auto")
             return false;

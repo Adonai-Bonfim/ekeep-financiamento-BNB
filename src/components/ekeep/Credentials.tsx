@@ -1,4 +1,11 @@
-import { Building2, FileBadge2, Handshake, Network, UsersRound } from "lucide-react";
+import iconsReference from "@/assets/credentials-icons-reference.png";
+
+// Viewports show only the original icons, preserving the supplied artwork.
+const iconViewports: Record<string, string> = {
+  experience: "203 45 76 76",
+  governance: "665 46 76 76",
+  solutions: "1129 47 76 76",
+};
 
 const credentials = [
   {
@@ -36,19 +43,16 @@ export function Credentials() {
               aria-hidden="true"
               className="credentials-badge absolute left-1/2 top-0 grid h-26 w-26 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-[#1b1b1b] text-white"
             >
-              {icon === "experience" ? (
-                <FileBadge2 size={52} strokeWidth={2.5} />
-              ) : icon === "governance" ? (
-                <div className="flex flex-col items-center">
-                  <UsersRound size={37} strokeWidth={2.2} />
-                  <Handshake size={40} strokeWidth={2.2} className="-mt-2" />
-                </div>
-              ) : (
-                <div className="flex flex-col items-center">
-                  <Building2 size={36} strokeWidth={2.2} />
-                  <Network size={29} strokeWidth={2.2} className="-mt-1" />
-                </div>
-              )}
+              <svg
+                viewBox={iconViewports[icon]}
+                width="64"
+                height="64"
+                aria-hidden="true"
+                focusable="false"
+                className="overflow-hidden"
+              >
+                <image href={iconsReference} width="1405" height="365" />
+              </svg>
             </div>
             <h2 className="text-xl font-extrabold leading-tight text-[#1b1b1b]">{title}</h2>
             <p className="mx-auto mt-5 max-w-sm text-base font-medium leading-snug text-white sm:text-lg">
