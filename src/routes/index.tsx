@@ -855,9 +855,6 @@ function Footer() {
       <div className="page-container footer-grid grid gap-x-6 gap-y-4">
         <div>
           <Logo dark />
-          <p className="mt-2 text-sm text-background/65">
-            Mais que inventários, informações para melhores decisões.
-          </p>
         </div>
         <div className="space-y-3 text-sm text-background/80">
           <p className="flex items-center gap-3">
@@ -896,7 +893,7 @@ function Footer() {
         </div>
       </div>
       <div className="page-container mt-4">
-        <p className="text-center text-xs text-background/50">
+        <p className="bg-neutral-800 px-4 py-3 text-center text-xs leading-relaxed text-white/90">
           © {new Date().getFullYear()} Ekeep Consultores. Todos os direitos reservados.
         </p>
       </div>
