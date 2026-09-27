@@ -163,6 +163,13 @@
 /* Scope page adaptations to the landing page, preserving reusable UI primitives. */
 .landing {
   overflow-wrap: anywhere;
+  display: flow-root;
+  padding-bottom: env(safe-area-inset-bottom, 0rem);
+}
+/* Keep the document and mobile safe area continuous with the black footer. */
+html:has(.landing),
+body:has(.landing) {
+  background-color: #000;
 }
 .landing :where(.grid, .flex) > * {
   min-width: 0;
@@ -191,15 +198,19 @@
 }
 /* Intentional horizontal scrolling on phones; the desktop grid is unchanged. */
 @media (width < 40rem) {
-  .testimonial-grid {
+  .testimonial-track {
     position: relative;
     display: flex;
+    will-change: transform;
+  }
+  .testimonial-grid {
+    position: relative;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     padding-bottom: 0.75rem;
     scrollbar-width: thin;
   }
-  .testimonial-grid > figure {
+  .testimonial-track > figure {
     flex: 0 0 88%;
   }
   .testimonial-copy {
@@ -239,8 +250,19 @@
   flex-shrink: 0;
   width: clamp(0.75rem, 4vw, 1.75rem);
 }
+/* Fill the visible screen below the menu. Minimum height lets long content
+   grow on short screens instead of clipping text or calls to action. */
+.landing #top {
+  min-height: calc(100vh - var(--header-height, 4.5rem));
+  min-height: calc(100dvh - var(--header-height, 4.5rem));
+  display: flex;
+  align-items: center;
+}
 .hero-content {
   padding-block: clamp(2.5rem, 7vw, 6rem);
+}
+.hero-actions {
+  margin-top: clamp(3rem, 8vh, 6rem);
 }
 .mobile-nav {
   max-height: calc(100dvh - 4.5rem);
@@ -349,6 +371,22 @@
 .lead-message {
   grid-column: 1 / -1;
 }
+/* Reorder only the single-column FAQ; desktop keeps its existing left column. */
+@media (width < 60rem) {
+  .faq-left {
+    display: contents;
+  }
+  .faq-intro {
+    order: 0;
+  }
+  .faq-accordion {
+    order: 1;
+  }
+  .faq-support {
+    order: 2;
+    margin-top: 0;
+  }
+}
 .landing textarea {
   resize: vertical;
 }
@@ -357,7 +395,7 @@
 .risks-grid,
 .differentials-grid,
 .process-grid,
-.testimonial-grid,
+.testimonial-track,
 .footer-grid {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -396,7 +434,7 @@
 @media (min-width: 60rem) {
   .credentials-grid,
   .process-grid,
-  .testimonial-grid {
+  .testimonial-track {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .solutions-grid {

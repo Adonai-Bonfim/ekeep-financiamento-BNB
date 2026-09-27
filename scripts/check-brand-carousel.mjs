@@ -8,7 +8,11 @@ try {
   await page.goto("http://localhost:5173", { waitUntil: "networkidle" });
   const track = page.locator(".testimonial-grid");
   await track.scrollIntoViewIfNeeded();
-  const position = () => track.evaluate((el) => el.scrollLeft);
+  const position = () =>
+    track.locator(".testimonial-track").evaluate((el) => {
+      const transform = getComputedStyle(el).transform;
+      return transform === "none" ? 0 : -new DOMMatrixReadOnly(transform).m41;
+    });
   const start = await position();
   await page.waitForTimeout(1500);
   assert.ok((await position()) > start + 5, "Mobile slideshow must move slowly");
@@ -28,7 +32,10 @@ try {
   assert.equal(await position(), reduced, "Reduced motion must stop autoplay");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 1440, height: 900 });
-  assert.equal(await track.evaluate((el) => getComputedStyle(el).display), "grid");
+  assert.equal(
+    await track.locator(".testimonial-track").evaluate((el) => getComputedStyle(el).display),
+    "grid",
+  );
   assert.equal(await track.locator("figure:visible").count(), 3);
   assert.equal(await page.locator(".testimonial-pause").isVisible(), false);
   const favicon = await page.locator('link[rel="icon"]').getAttribute("href");

@@ -1,6 +1,8 @@
 ﻿import logo from "@/assets/ekeep-logo.png";
 
-export function Logo({ light = false }: { light?: boolean }) {
+import darkLogo from "@/assets/ekeep-logo-dark.png";
+
+export function Logo({ light = false, dark = false }: { light?: boolean; dark?: boolean }) {
   return (
     <span className={`brand-logo ${light ? "brand-logo-footer" : ""}`}>
       {/* Crop only the original canvas margins; preserve the supplied artwork. */}
@@ -10,7 +12,7 @@ export function Logo({ light = false }: { light?: boolean }) {
         aria-label="Ekeep Consultores & Auditores"
         className="block h-auto w-full"
       >
-        <image href={logo} width="1754" height="886" />
+        <image href={dark ? darkLogo : logo} width="1754" height="886" />
       </svg>
     </span>
   );

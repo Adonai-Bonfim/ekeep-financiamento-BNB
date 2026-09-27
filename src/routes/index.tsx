@@ -71,6 +71,28 @@ const NAV = [
 function Header() {
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const headerBarRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const bar = headerBarRef.current;
+    const landing = bar?.closest<HTMLElement>(".landing");
+    if (!bar || !landing) return;
+    // Measure only the permanent bar, so opening the menu doesn't resize the hero.
+    const updateHeight = () => {
+      const header = bar.parentElement;
+      const border = header ? parseFloat(getComputedStyle(header).borderBottomWidth) || 0 : 0;
+      landing.style.setProperty(
+        "--header-height",
+        `${bar.getBoundingClientRect().height + border}px`,
+      );
+    };
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(bar);
+    return () => {
+      observer.disconnect();
+      landing.style.removeProperty("--header-height");
+    };
+  }, []);
   useEffect(() => {
     if (!open) return;
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -91,15 +113,18 @@ function Header() {
     };
   }, [open]);
   return (
-    <header className="site-header sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-      <div className="page-container grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 py-3">
+    <header className="site-header sticky top-0 z-50 border-b border-white/15 bg-black text-white">
+      <div
+        ref={headerBarRef}
+        className="page-container grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 py-3"
+      >
         <a
           href="#top"
           className="min-w-0 justify-self-start"
           aria-label="Ekeep — início"
           onClick={() => setOpen(false)}
         >
-          <Logo />
+          <Logo dark />
         </a>
         <div className="flex items-center gap-2">
           <nav aria-label="Navegação principal" className="hidden items-center gap-6 xl:flex">
@@ -107,7 +132,7 @@ function Header() {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-ink-soft transition-colors hover:text-primary"
+                className="text-sm font-medium text-white/90 transition-colors hover:text-primary"
               >
                 {item.label}
               </a>
@@ -123,7 +148,7 @@ function Header() {
             aria-expanded={open}
             aria-controls="menu-mobile"
             onClick={() => setOpen((v) => !v)}
-            className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-border xl:hidden"
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-white/25 text-white xl:hidden"
           >
             {open ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -133,14 +158,14 @@ function Header() {
         <nav
           id="menu-mobile"
           aria-label="Navegação móvel"
-          className="mobile-nav border-t border-border bg-background px-4 py-3 xl:hidden"
+          className="mobile-nav border-t border-white/15 bg-black px-4 py-3 xl:hidden"
         >
           {NAV.map((item) => (
             <a
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="block border-b border-border/60 py-3 text-sm font-medium text-ink-soft last:border-0"
+              className="block border-b border-white/15 py-3 text-sm font-medium text-white/90 last:border-0"
             >
               {item.label}
             </a>
@@ -180,7 +205,7 @@ function Hero() {
           A Ekeep realiza inventários para identificar divergências, reduzir perdas, apoiar
           auditorias e transformar dados físicos em informações confiáveis para a sua gestão.
         </p>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="hero-actions flex flex-wrap gap-3">
           <a href="#contato" className="btn-base btn-primary">
             Solicitar Diagnóstico <ArrowRight size={16} />
           </a>
@@ -547,40 +572,68 @@ const TESTIMONIALS = [
 
 function Testimonials() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const motionRef = useRef<Animation | null>(null);
+  const pauseRef = useRef(false);
   const [paused, setPaused] = useState(false);
+  pauseRef.current = paused;
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track || paused) return;
+    const viewport = trackRef.current;
+    const track = viewport?.querySelector<HTMLElement>(".testimonial-track");
+    if (!viewport || !track) return;
     const mobile = window.matchMedia("(width < 40rem)");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let frame = 0;
-    let lastTime = 0;
-    let position = track.scrollLeft;
     let visible = false;
+    let duration = 1;
+    const syncPlayback = () => {
+      const motion = motionRef.current;
+      if (!motion) return;
+      if (pauseRef.current || !visible || document.hidden) motion.pause();
+      else motion.play();
+    };
+    const rebuild = () => {
+      const previous = motionRef.current;
+      const progress = previous ? (Number(previous.currentTime ?? 0) % duration) / duration : 0;
+      previous?.cancel();
+      motionRef.current = null;
+      if (!mobile.matches || reducedMotion.matches) return;
+      const duplicate = track.children[TESTIMONIALS.length] as HTMLElement | undefined;
+      const distance = duplicate?.offsetLeft ?? 0;
+      if (!distance) return;
+      // Translate fractional pixels on the compositor, instead of rounding
+      // scrollLeft on every frame. Matching copies make the loop seamless.
+      duration = (distance / 12) * 1000;
+      const motion = track.animate(
+        [{ transform: "translate3d(0, 0, 0)" }, { transform: `translate3d(-${distance}px, 0, 0)` }],
+        { duration, iterations: Infinity, easing: "linear" },
+      );
+      motion.currentTime = progress * duration;
+      motionRef.current = motion;
+      syncPlayback();
+    };
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry?.isIntersecting ?? false;
+      syncPlayback();
     });
-    observer.observe(track);
-    const tick = (time: number) => {
-      const elapsed = lastTime ? Math.min(time - lastTime, 64) : 0;
-      lastTime = time;
-      if (mobile.matches && !reducedMotion.matches && visible && !document.hidden) {
-        const duplicate = track.children[TESTIMONIALS.length] as HTMLElement | undefined;
-        const loopWidth = duplicate?.offsetLeft ?? 0;
-        if (loopWidth > 0) {
-          position = (position + elapsed * 0.012) % loopWidth;
-          track.scrollLeft = position;
-        }
-      } else {
-        position = track.scrollLeft;
-      }
-      frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
+    const resize = new ResizeObserver(rebuild);
+    observer.observe(viewport);
+    resize.observe(viewport);
+    mobile.addEventListener("change", rebuild);
+    reducedMotion.addEventListener("change", rebuild);
+    document.addEventListener("visibilitychange", syncPlayback);
+    rebuild();
     return () => {
-      cancelAnimationFrame(frame);
+      motionRef.current?.cancel();
+      motionRef.current = null;
       observer.disconnect();
+      resize.disconnect();
+      mobile.removeEventListener("change", rebuild);
+      reducedMotion.removeEventListener("change", rebuild);
+      document.removeEventListener("visibilitychange", syncPlayback);
     };
+  }, []);
+  useEffect(() => {
+    if (paused) motionRef.current?.pause();
+    else if (!document.hidden) motionRef.current?.play();
   }, [paused]);
   return (
     <section id="depoimentos" className="bg-surface section-space">
@@ -595,7 +648,7 @@ function Testimonials() {
         </div>
         <div
           ref={trackRef}
-          className="testimonial-grid mt-8 grid gap-5"
+          className="testimonial-grid mt-8"
           role="region"
           aria-label="Depoimentos de clientes"
           tabIndex={0}
@@ -604,30 +657,34 @@ function Testimonials() {
           onBlur={() => setPaused(false)}
           onKeyDown={() => setPaused(true)}
         >
-          {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
-            <figure
-              key={`${t.name}-${i}`}
-              aria-hidden={i >= TESTIMONIALS.length ? true : undefined}
-              className={`min-w-0 rounded-xl border border-border bg-card p-5 shadow-soft ${i >= TESTIMONIALS.length ? "testimonial-copy" : ""}`}
-            >
-              <blockquote className="text-sm leading-relaxed text-ink-soft">“{t.quote}”</blockquote>
-              <figcaption className="mt-5 flex flex-wrap items-center gap-3 border-t border-border pt-4">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-sm font-bold text-primary">
-                  {t.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-sm font-bold text-ink">{t.name}</span>
-                  <span className="block text-sm text-muted-foreground">{t.role}</span>
-                </span>
-                <span className="w-full font-display text-sm font-extrabold text-ink-soft">
-                  {t.company}
-                </span>
-              </figcaption>
-            </figure>
-          ))}
+          <div className="testimonial-track grid gap-5">
+            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+              <figure
+                key={`${t.name}-${i}`}
+                aria-hidden={i >= TESTIMONIALS.length ? true : undefined}
+                className={`min-w-0 rounded-xl border border-border bg-card p-5 shadow-soft ${i >= TESTIMONIALS.length ? "testimonial-copy" : ""}`}
+              >
+                <blockquote className="text-sm leading-relaxed text-ink-soft">
+                  “{t.quote}”
+                </blockquote>
+                <figcaption className="mt-5 flex flex-wrap items-center gap-3 border-t border-border pt-4">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-sm font-bold text-primary">
+                    {t.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-bold text-ink">{t.name}</span>
+                    <span className="block text-sm text-muted-foreground">{t.role}</span>
+                  </span>
+                  <span className="w-full font-display text-sm font-extrabold text-ink-soft">
+                    {t.company}
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -717,13 +774,15 @@ function Faq() {
   return (
     <section className="bg-background section-space">
       <div className="page-container faq-grid grid gap-8">
-        <div>
-          <p className="eyebrow">Perguntas frequentes</p>
-          <h2 className="mt-3 section-title font-extrabold">Dúvidas frequentes.</h2>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Veja as respostas para as principais perguntas sobre nossos serviços.
-          </p>
-          <div className="mt-8 rounded-xl border border-border bg-surface p-5 sm:p-6">
+        <div className="faq-left">
+          <div className="faq-intro">
+            <p className="eyebrow">Perguntas frequentes</p>
+            <h2 className="mt-3 section-title font-extrabold">Dúvidas frequentes.</h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Veja as respostas para as principais perguntas sobre nossos serviços.
+            </p>
+          </div>
+          <div className="faq-support mt-8 rounded-xl border border-border bg-surface p-5 sm:p-6">
             <h3 className="text-xl font-bold text-ink">Ainda ficou com alguma dúvida?</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               Fale com um especialista da Ekeep e entenda qual formato de inventário faz mais
@@ -757,7 +816,7 @@ function Faq() {
             </ul>
           </div>
         </div>
-        <div className="self-start divide-y divide-border rounded-xl border border-border bg-card">
+        <div className="faq-accordion self-start divide-y divide-border rounded-xl border border-border bg-card">
           {FAQ.map((item, i) => (
             <div key={item.q}>
               <button
@@ -792,10 +851,10 @@ function Faq() {
 
 function Footer() {
   return (
-    <footer className="bg-ink text-background">
+    <footer className="bg-black text-background">
       <div className="page-container footer-grid grid gap-x-6 gap-y-4">
         <div>
-          <Logo light />
+          <Logo dark />
           <p className="mt-2 text-sm text-background/65">
             Mais que inventários, informações para melhores decisões.
           </p>
@@ -834,10 +893,12 @@ function Footer() {
               </a>
             ))}
           </div>
-          <p className="mt-2 text-xs text-background/50">
-            © {new Date().getFullYear()} Ekeep Consultores. Todos os direitos reservados.
-          </p>
         </div>
+      </div>
+      <div className="page-container mt-4">
+        <p className="text-center text-xs text-background/50">
+          © {new Date().getFullYear()} Ekeep Consultores. Todos os direitos reservados.
+        </p>
       </div>
     </footer>
   );
@@ -845,7 +906,7 @@ function Footer() {
 
 function Landing() {
   return (
-    <div className="landing min-h-screen bg-background">
+    <div className="landing min-h-screen bg-black">
       <a href="#conteudo" className="skip-link">
         Pular para o conteúdo
       </a>
