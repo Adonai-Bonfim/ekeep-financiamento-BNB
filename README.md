@@ -2,7 +2,7 @@
 
 Site institucional da **Ekeep**, desenvolvido para apresentar os serviços de inventário de estoque e imobilizado, explicar a metodologia de trabalho e facilitar o contato comercial pelo WhatsApp.
 
-A aplicação reúne conteúdo institucional, benefícios, etapas do processo, depoimentos e perguntas frequentes em uma landing page responsiva, com renderização no servidor.
+A aplicação reúne conteúdo institucional, benefícios, etapas do processo, depoimentos e perguntas frequentes em uma landing page responsiva, com renderização no servidor. 
 
 ## Visão geral
 
