@@ -14,4 +14,10 @@ for (const name of ["hero-warehouse", "office-assets", "stock-operator", "worrie
       .toFile(fileURLToPath(new URL(`${name}-${width}.webp`, destination)));
   }
 }
-console.log("Generated 12 responsive WebP assets.");
+for (const width of [480, 941]) {
+  await sharp(fileURLToPath(new URL("../src/assets/hero-mobile.jpg", import.meta.url)))
+    .resize({ width, withoutEnlargement: true })
+    .webp({ quality: 80 })
+    .toFile(fileURLToPath(new URL(`hero-mobile-${width}.webp`, destination)));
+}
+console.log("Generated 14 responsive WebP assets.");

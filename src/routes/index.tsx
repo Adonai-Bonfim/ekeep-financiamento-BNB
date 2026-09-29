@@ -190,12 +190,13 @@ function Hero() {
         asset="hero-warehouse"
         src={heroImg}
         alt="Operação de inventário em armazém"
-        width={1920}
-        height={1088}
+        width={1672}
+        height={941}
         fetchPriority="high"
         className="absolute inset-0 -z-10 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/90 to-ink/60" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/90 via-ink/65 to-ink/20" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-transparent to-black/40 sm:hidden" />
       <div className="page-container hero-content">
         <h1 className="max-w-2xl hero-title font-extrabold text-background">
           Controle real sobre o <span className="text-primary">patrimônio e o estoque</span>{" "}
@@ -203,7 +204,7 @@ function Hero() {
         </h1>
         <p className="mt-5 max-w-xl text-base leading-relaxed text-background/75">
           A Ekeep realiza inventários para identificar divergências, reduzir perdas, apoiar
-          auditorias e transformar dados físicos em informações confiáveis para a sua gestão.
+          auditorias{" "}<span className="block sm:inline">e transformar dados físicos em informações confiáveis para a sua gestão.</span>
         </p>
         <div className="hero-actions flex flex-wrap gap-3">
           <a href="#contato" className="btn-base btn-primary">
@@ -240,8 +241,6 @@ const SOLUTIONS = [
       "Atender requisitos normativos e fiscais",
       "Apoiar a apuração adequada da depreciação",
     ],
-    segments:
-      "fábricas, indústrias, condomínios empresariais, lojas, escritórios de prestadores de serviço e empresas de diferentes segmentos.",
   },
   {
     asset: "stock-operator" as const,
@@ -255,11 +254,8 @@ const SOLUTIONS = [
       "Menor exposição a furtos e desvios",
       "Mais segurança em auditorias",
       "Atendimento a requisitos normativos e fiscais",
-      "Menos compras desnecessárias",
       "Posição de estoque mais confiável para decisões de compra",
     ],
-    segments: "fábricas, indústrias e lojas de varejo.",
-    segmentsLabel: "Indicado para:",
   },
 ];
 
@@ -280,7 +276,7 @@ function Solutions() {
 
         <div className="solutions-grid mt-8 grid gap-6">
           {SOLUTIONS.map(
-            ({ asset, img, alt, icon: Icon, title, subtitle, items, segments, segmentsLabel }) => (
+            ({ asset, img, alt, icon: Icon, title, subtitle, items }) => (
               <article
                 key={title}
                 className="group overflow-hidden rounded-xl border border-border bg-card shadow-soft transition hover:shadow-card solution-card"
@@ -311,14 +307,6 @@ function Solutions() {
                       </li>
                     ))}
                   </ul>
-                  {segments && (
-                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                      <strong className="font-semibold text-ink-soft">
-                        {segmentsLabel ?? "Indicado para:"}
-                      </strong>{" "}
-                      {segments}
-                    </p>
-                  )}
                   <a
                     href="#contato"
                     className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary"
@@ -861,7 +849,7 @@ function Footer() {
             <MessageCircle size={16} className="shrink-0 text-primary" /> +55 (71) 98194-8895
           </p>
           <p className="flex items-center gap-3">
-            <Mail size={16} className="shrink-0 text-primary" /> contato@ekeep.com.br
+            <Mail size={16} className="shrink-0 text-primary" /> contato@ekeepconsultores.com.br
           </p>
         </div>
         <div>
@@ -892,7 +880,7 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="page-container mt-4">
+      <div className="mt-4 w-full">
         <p className="bg-neutral-800 px-4 py-3 text-center text-xs leading-relaxed text-white/90">
           © {new Date().getFullYear()} Ekeep Consultores. Todos os direitos reservados.
         </p>
