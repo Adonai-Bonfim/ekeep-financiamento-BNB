@@ -10,11 +10,11 @@ A aplicação reúne conteúdo institucional, benefícios, etapas do processo, d
 - Seções de diferenciais, riscos e processo de execução.
 - Depoimentos com movimento horizontal no mobile e grade estática no desktop.
 - Perguntas frequentes em acordeão.
-- Formulário com integração ao Google Sheets e opção de continuar pelo WhatsApp.
+- Formulário que abre o WhatsApp do especialista com os dados preenchidos e o serviço selecionado.
 - Imagens adaptativas em WebP, com fallback em JPEG.
 - Navegação por teclado, foco visível e respeito à preferência por movimento reduzido.
 
-> O salvamento de contatos depende da configuração da planilha e das credenciais no servidor. Veja [GOOGLE-SHEETS.md](./GOOGLE-SHEETS.md). A autorização para marketing é opcional; campanhas não são enviadas automaticamente.
+> O formulário prepara a mensagem, mas o visitante precisa confirmar o envio no WhatsApp. Não há armazenamento em planilha ou banco de dados, nem dependência de Apps Script.
 
 ## Tecnologias
 

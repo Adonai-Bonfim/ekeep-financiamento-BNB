@@ -203,8 +203,8 @@ function Hero() {
           <span className="block sm:inline">da sua empresa.</span>
         </h1>
         <p className="mt-5 max-w-xl text-base leading-relaxed text-background/75">
-          A Ekeep realiza inventários para identificar divergências, reduzir perdas, apoiar
-          auditorias{" "}<span className="block sm:inline">e transformar dados físicos em informações confiáveis para a sua gestão.</span>
+          A Ekeep realiza projetos de consultoria especializados para identificar divergências, reduzir perdas, apoiar
+          auditorias{" "}<span className="block sm:inline">e transformar dados físicos em informação confiáveis para a sua gestão.</span>
         </p>
         <div className="hero-actions flex flex-wrap gap-3">
           <a href="#contato" className="btn-base btn-primary">
@@ -230,7 +230,7 @@ const SOLUTIONS = [
     img: officeImg,
     alt: "Escritório com ativos patrimoniais",
     icon: Building2,
-    title: "Inventário de Imobilizado",
+    title: "Laudos e Inventários de Imobilizado",
     subtitle: "Mais controle, visibilidade e segurança sobre os bens da sua empresa.",
     items: [
       "Garantir controle dos bens da empresa",
@@ -269,7 +269,7 @@ function Solutions() {
         <div className="mt-3 flex flex-col items-start gap-3 text-left">
           <h2 className="section-title font-extrabold">Soluções para diferentes necessidades.</h2>
           <p className="text-sm text-muted-foreground">
-            Inventários de estoque e imobilizado com metodologia, tecnologia e foco em resultados
+            Trabalhos especiais de imobilizado e estoque com metodologia, tecnologia e foco em resultados
             para a sua empresa.
           </p>
         </div>

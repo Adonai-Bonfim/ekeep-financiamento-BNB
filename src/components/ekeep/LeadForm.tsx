@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { MessageCircle, ArrowRight, CheckCircle2 } from "lucide-react";
 import { leadSchema } from "@/lib/lead-schema";
-import { submitLead } from "@/lib/leads.functions";
 
 export const WHATSAPP_NUMBER = "5571981948895";
 
@@ -37,9 +36,7 @@ const labelClass = "mb-1.5 block text-sm font-semibold text-ink-soft";
 export function LeadForm() {
   const [lead, setLead] = useState<Lead>(EMPTY);
   const [sent, setSent] = useState(false);
-  const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
-  const [website, setWebsite] = useState("");
 
   const set = (key: keyof Lead) => (e: { target: { value: string } }) =>
     setLead((prev) => ({ ...prev, [key]: e.target.value }));
@@ -57,25 +54,16 @@ export function LeadForm() {
     .filter(Boolean)
     .join("\n");
 
-  async function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (sending || sent) return;
     setError("");
-    const parsed = leadSchema.safeParse({ ...lead, website });
+    const parsed = leadSchema.safeParse(lead);
     if (!parsed.success) {
       setError("Confira os campos obrigatórios e informe o WhatsApp com DDD.");
       return;
     }
-    setSending(true);
-    try {
-      const result = await submitLead({ data: parsed.data });
-      if (!result.ok) throw new Error("Registro não confirmado");
-      setSent(true);
-    } catch {
-      setError("Não foi possível confirmar o registro. Seus dados continuam preenchidos. Tente novamente ou fale conosco pelo WhatsApp.");
-    } finally {
-      setSending(false);
-    }
+    window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
+    setSent(true);
   }
 
   return (
@@ -83,10 +71,9 @@ export function LeadForm() {
       onSubmit={handleSubmit}
       className="lead-form min-w-0 rounded-xl bg-card shadow-card"
       id="formulario"
-      aria-busy={sending}
     >
       <div className="grid min-w-0 gap-5">
-        <fieldset disabled={sending || sent} className="lead-fields grid min-w-0 gap-4">
+        <fieldset className="lead-fields grid min-w-0 gap-4">
           <legend className="sr-only">Dados para solicitar contato</legend>
           <div>
             <label className={labelClass} htmlFor="nome">
@@ -179,6 +166,7 @@ export function LeadForm() {
               <option value="">Selecione uma opção</option>
               <option>Inventário de Imobilizado</option>
               <option>Inventário de Estoque</option>
+              <option>Relatório de Avaliação de Imóvel e Avaliação de Impairment</option>
               <option>Ainda não sei</option>
             </select>
           </div>
@@ -196,15 +184,11 @@ export function LeadForm() {
               className={inputClass}
             />
           </div>
-          <div hidden aria-hidden="true">
-            <label htmlFor="website">Website</label>
-            <input id="website" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
-          </div>
         </fieldset>
 
         <div className="lead-actions grid min-w-0 gap-3">
-          <button type="submit" disabled={sending || sent} className="btn-base btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60">
-            {sending ? "Salvando contato…" : sent ? "Contato registrado" : "Solicitar contato"} <ArrowRight size={16} />
+          <button type="submit" className="btn-base btn-primary w-full">
+            Solicitar contato <ArrowRight size={16} />
           </button>
           <a
             href={whatsappLink(message)}
@@ -215,8 +199,8 @@ export function LeadForm() {
             <MessageCircle size={16} /> Continuar no WhatsApp
           </a>
           <p className="lead-message text-sm leading-relaxed text-muted-foreground">
-            Ao enviar, seus dados serão armazenados pela Ekeep para atender à sua solicitação.
-            Você também pode continuar a conversa pelo WhatsApp.
+            Ao solicitar contato, o WhatsApp abrirá com os dados preenchidos. Confirme o envio
+            da mensagem para falar com um especialista da Ekeep.
           </p>
           {error && <p role="alert" className="lead-message text-sm leading-relaxed text-red-700">{error}</p>}
           {sent && (
@@ -225,7 +209,7 @@ export function LeadForm() {
               className="lead-message flex items-start gap-2 rounded-md bg-accent p-3 text-sm font-medium text-ink"
             >
               <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-primary" />
-              Solicitação registrada. Nossa equipe entrará em contato. Se preferir, continue pelo WhatsApp no botão acima.
+              Mensagem preparada. Confirme o envio no WhatsApp. Se ele não abrir, toque em “Continuar no WhatsApp”.
             </p>
           )}
         </div>

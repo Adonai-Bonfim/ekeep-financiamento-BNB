@@ -7,9 +7,8 @@ export const leadSchema = z.object({
   email: z.string().trim().email().max(255),
   whatsapp: z.string().trim().max(20).refine((value) => /^\+?[\d\s().-]+$/.test(value) && /^\d{10,15}$/.test(value.replace(/\D/g, ""))),
   cidade: z.string().trim().min(1).max(80),
-  servico: z.enum(["Inventário de Imobilizado", "Inventário de Estoque", "Ainda não sei"]),
+  servico: z.enum(["Inventário de Imobilizado", "Inventário de Estoque", "Relatório de Avaliação de Imóvel e Avaliação de Impairment", "Ainda não sei"]),
   necessidade: z.string().trim().max(1000),
-  website: z.string().max(200),
 });
 
 export type LeadSubmission = z.infer<typeof leadSchema>;
