@@ -891,7 +891,7 @@ function Footer() {
 
 function Landing() {
   return (
-    <div className="landing min-h-screen bg-black">
+    <div className="landing min-h-screen bg-neutral-800">
       <a href="#conteudo" className="skip-link">
         Pular para o conteúdo
       </a>

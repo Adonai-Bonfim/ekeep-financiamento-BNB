@@ -166,10 +166,10 @@
   display: flow-root;
   padding-bottom: env(safe-area-inset-bottom, 0rem);
 }
-/* Keep the document and mobile safe area continuous with the black footer. */
+/* Continue the copyright strip through the mobile safe area. */
 html:has(.landing),
 body:has(.landing) {
-  background-color: #000;
+  background-color: var(--color-neutral-800);
 }
 .landing :where(.grid, .flex) > * {
   min-width: 0;
@@ -287,7 +287,7 @@ body:has(.landing) {
   bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 .landing footer {
-  padding-block: 1.5rem;
+  padding-top: 1.5rem;
 }
 .landing footer .brand-logo {
   width: 11rem;
