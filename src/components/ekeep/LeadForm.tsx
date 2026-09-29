@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { MessageCircle, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { leadSchema } from "@/lib/lead-schema";
 
 export const WHATSAPP_NUMBER = "5571981948895";
@@ -166,7 +166,8 @@ export function LeadForm() {
               <option value="">Selecione uma opção</option>
               <option>Inventário de Imobilizado</option>
               <option>Inventário de Estoque</option>
-              <option>Relatório de Avaliação de Imóvel e Avaliação de Impairment</option>
+              <option>Relatório de Avaliação de Imóvel</option>
+              <option>Avaliação de Impairment</option>
               <option>Ainda não sei</option>
             </select>
           </div>
@@ -187,17 +188,9 @@ export function LeadForm() {
         </fieldset>
 
         <div className="lead-actions grid min-w-0 gap-3">
-          <button type="submit" className="btn-base btn-primary w-full">
+          <button type="submit" className="lead-message btn-base btn-primary w-full">
             Solicitar contato <ArrowRight size={16} />
           </button>
-          <a
-            href={whatsappLink(message)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-base btn-light w-full"
-          >
-            <MessageCircle size={16} /> Continuar no WhatsApp
-          </a>
           <p className="lead-message text-sm leading-relaxed text-muted-foreground">
             Ao solicitar contato, o WhatsApp abrirá com os dados preenchidos. Confirme o envio
             da mensagem para falar com um especialista da Ekeep.
@@ -209,7 +202,7 @@ export function LeadForm() {
               className="lead-message flex items-start gap-2 rounded-md bg-accent p-3 text-sm font-medium text-ink"
             >
               <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-primary" />
-              Mensagem preparada. Confirme o envio no WhatsApp. Se ele não abrir, toque em “Continuar no WhatsApp”.
+              Mensagem preparada. Confirme o envio no WhatsApp. Se ele não abrir, permita pop-ups e toque novamente em “Solicitar contato”.
             </p>
           )}
         </div>
