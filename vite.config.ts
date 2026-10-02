@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     tanstackStart({ server: { entry: "server" } }),
-    nitro(),
+    nitro({ preset: "cloudflare-pages" }),
     react(),
   ],
   resolve: {

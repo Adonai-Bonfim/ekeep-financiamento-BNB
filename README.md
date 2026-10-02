@@ -154,30 +154,51 @@ O teste `check-brand-carousel.mjs` utiliza Edge e `http://localhost:5173` direta
 
 Detalhes de arquitetura fluida, breakpoints e acessibilidade estão em [RESPONSIVIDADE.md](./RESPONSIVIDADE.md).
 
-## Build e publicação
+## Build e publicação no Cloudflare Pages
 
-Gere e execute a versão de produção:
+O projeto usa o preset Nitro `cloudflare-pages`, preservando a renderização no servidor. O build gera `dist/`, incluindo assets, `_worker.js/` e `_routes.json`. O arquivo interno `_worker.js` é o servidor de Pages Functions; não significa publicação como um projeto Workers separado.
 
+O projeto **ekeep-inventario** foi criado no Pages como **Direct Upload**, com endereço padrão `https://ekeep-inventario.pages.dev`. O Worker existente não é convertido pelo commit e permanece separado. Nesta modalidade, pushes no GitHub não publicam automaticamente: execute o comando de publicação abaixo após o build. Para automação, configure uma pipeline própria; se preferir a integração Git nativa, crie outro projeto Pages nessa modalidade.
+
+Para um projeto Pages com integração Git, use:
+
+| Campo | Valor |
+| --- | --- |
+| Branch de produção | `main` |
+| Framework preset | `None` |
+| Comando de build | `npm run build` |
+| Diretório de saída | `dist` |
+| Diretório raiz | raiz do repositório |
+| Versão Node (`NODE_VERSION`) | `24` |
+
+Não configure `npx wrangler deploy` no projeto Pages. A integração Git publica automaticamente após o build. Remova uma eventual variável antiga `NITRO_PRESET` do painel para não sobrescrever o preset deste projeto.
+
+O `wrangler.toml` versionado define o diretório de Pages, a data de compatibilidade e `nodejs_compat`. Não contém rotas de domínio, zone_id ou configuração de DNS. O Nitro também gera uma configuração interna em `dist/_worker.js/wrangler.json`, ajustando o caminho relativo para a mesma pasta dist.
+
+Validação local:
 ```sh
+npm ci
+npm run typecheck
 npm run build
-npm start
+npx wrangler pages dev dist
 ```
 
-O build cria a pasta `.output/`, contendo o servidor Node.js e os arquivos públicos. Por padrão, o servidor de produção utiliza a porta **3000**.
+Para desenvolvimento, continue usando `npm run dev`. O script antigo `npm start` atende somente um build Node e não deve ser usado para esta saída Pages. Nenhum script do package.json foi alterado.
 
-Para uma instalação em servidor próprio:
-
-1. Execute `npm ci` e `npm run build` no ambiente de build.
-2. Transfira a pasta `.output/` completa para o servidor de destino.
-3. Execute `node .output/server/index.mjs` com Node.js.
-4. Configure o domínio, HTTPS e o gerenciamento do processo na infraestrutura escolhida.
-
-As variáveis `PORT` e `HOST` permitem ajustar a escuta do servidor. Exemplo em PowerShell:
-
-```powershell
-$env:PORT = "3000"
-$env:HOST = "0.0.0.0"
-npm start
+Publicação do projeto Direct Upload criado:
+```sh
+npx wrangler pages deploy dist --project-name ekeep-inventario --branch main
 ```
 
-O diretório `.output/public` contém os assets, mas a publicação atual também depende do servidor de renderização. Não publique apenas essa pasta em uma hospedagem exclusivamente estática.
+A primeira publicação no Pages fornece `NOME_DO_PROJETO.pages.dev`. O nome depende da disponibilidade e da escolha no painel; não é criado apenas pelo build local.
+
+### Subdomínio com DNS no cPanel
+
+Depois de validar o endereço pages.dev:
+1. No projeto Pages, adicione `inventario.ekeepconsultores.com.br` em **Custom domains**.
+2. No cPanel, configure somente o CNAME `inventario` apontando para o endereço `NOME_DO_PROJETO.pages.dev` informado pela Cloudflare.
+3. Aguarde a validação do domínio e do certificado.
+
+Essa associação deve ser iniciada no Pages antes do CNAME. Não é necessário transferir nameservers, adicionar o domínio raiz como zona Cloudflare ou alterar registros do domínio principal/e-mail. Nenhum registro DNS é modificado pelo código ou pelo build. Se já existir registro para inventario, ajuste somente esse subdomínio ao fazer a troca.
+
+Referências: [integração Git](https://developers.cloudflare.com/pages/get-started/git-integration/), [configuração Wrangler para Pages](https://developers.cloudflare.com/pages/functions/wrangler-configuration/), [domínios externos](https://developers.cloudflare.com/pages/configuration/custom-domains/).
