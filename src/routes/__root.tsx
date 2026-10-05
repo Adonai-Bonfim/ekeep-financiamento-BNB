@@ -77,6 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Ekeep Consultores | Inventário de Estoque e Imobilizado" },
       { name: "author", content: "Ekeep Consultores" },
+      {
+        name: "google-site-verification",
+        content: "EmCI5Yh0dT2-HS_Bc5-S9bo-1RFEBO9Gxw8vTA2wAv8",
+      },
     ],
     links: [
       {
