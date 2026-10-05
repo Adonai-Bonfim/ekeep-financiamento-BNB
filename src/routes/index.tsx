@@ -1,3 +1,4 @@
+import { landingSeo } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -36,27 +37,7 @@ import stockImg from "@/assets/stock-operator.jpg";
 import executiveImg from "@/assets/worried-executive.jpg";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Ekeep Consultores | Inventário de Estoque e Imobilizado" },
-      {
-        name: "description",
-        content:
-          "A Ekeep realiza inventários de estoque e imobilizado para reduzir perdas, apoiar auditorias e dar controle real sobre o patrimônio da sua empresa.",
-      },
-      {
-        property: "og:title",
-        content: "Ekeep Consultores | Inventário de Estoque e Imobilizado",
-      },
-      {
-        property: "og:description",
-        content:
-          "Mais de 20 anos transformando dados físicos em informação confiável para a gestão. Solicite um diagnóstico.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => landingSeo,
   component: Landing,
 });
 

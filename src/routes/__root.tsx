@@ -76,19 +76,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Ekeep Consultores | Inventário de Estoque e Imobilizado" },
-      {
-        name: "description",
-        content:
-          "Inventário de estoque e imobilizado com mais de 20 anos de experiência. Controle real sobre o patrimônio da sua empresa.",
-      },
       { name: "author", content: "Ekeep Consultores" },
-      { property: "og:title", content: "Ekeep Consultores" },
-      {
-        property: "og:description",
-        content: "Inventário de estoque e imobilizado para reduzir perdas e apoiar auditorias.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       {
