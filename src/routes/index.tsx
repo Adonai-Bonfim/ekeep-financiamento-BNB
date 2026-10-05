@@ -518,26 +518,44 @@ function Process() {
 const TESTIMONIALS = [
   {
     quote:
-      "A Ekeep trouxe mais organização e segurança para o nosso patrimônio. O processo foi bem conduzido e os relatórios nos deram uma visão clara da nossa realidade.",
-    name: "Juliana Martins",
-    role: "Gerente Administrativa",
-    company: "Grupo Boticário",
+      "A Ekeep nos ajudou a organizar um histórico complexo de fabricação interna, com um inventário rigoroso que deu suporte às auditorias e fortaleceu nossa governança. Trabalho sério, time comprometido e resultado que trouxe mais confiança aos nossos números.",
+    name: "Pablo Morelato",
+    role: "Head de Finanças",
+    company: "Wood. Group",
+    logo: "/wood-logo.jpeg",
+    logoWidth: 528,
+    logoHeight: 264,
   },
   {
     quote:
-      "O inventário de estoque nos ajudou a reduzir perdas, melhorar o controle e deu muito mais confiabilidade para as nossas auditorias.",
-    name: "Carlos Menezes",
-    role: "Diretor Financeiro",
-    company: "ambev",
+      "Trabalhamos com a Ekeep por duas oportunidades na realização do inventário do nosso ativo imobilizado e os resultados foram excelentes. É uma empresa extremamente pontual, técnica e competente. O trabalho trouxe total precisão para o nosso controle patrimonial e segurança para a gestão. Recomendo fortemente os serviços!",
+    name: "Vitor Accioly",
+    role: "Gerente Administrativo",
+    company: "Concessionária 2 de Julho",
+    logo: "/2-de-julho-logo.jpeg",
+    logoWidth: 696,
+    logoHeight: 401,
   },
   {
     quote:
-      "Equipe técnica, comprometida e parceira. Conseguimos integrar os dados rapidamente ao nosso ERP e hoje temos informações muito mais confiáveis para a gestão.",
-    name: "Ricardo Almeida",
-    role: "CFO",
-    company: "São Martinho",
+      "A Ekeep Consultores tem realizado serviços recorrentes de inventário de estoque em unidades da BRK Ambiental e atendido ao escopo e prazos com responsabilidade e profissionalismo. Estes trabalhos têm sido de fundamental importância para a manutenção da confiabilidade das posições de estoque, assim como atendimento à auditoria.",
+    name: "Silver Paes",
+    role: "Suprimentos Corporativo",
+    company: "BRK Ambiental Participações S.A.",
+    logo: "/brk-logo.jpeg",
+    logoWidth: 702,
+    logoHeight: 289,
   },
-];
+  {
+    quote: "A execução dos trabalhos de avaliação de impairment e inventário patrimonial pela Ekeep foram realizados com excelência, comprometimento com os prazos acordados e de forma eficiente e objetiva, fornecendo uma maior confiabilidade e qualidade na gestão dos ativos da empresa.",
+    name: "Livia Santos",
+    role: "Líder de Contabilidade",
+    company: "Natuzzi Brasil",
+    logo: "/natuzzi-logo.jpeg",
+    logoWidth: 642,
+    logoHeight: 106,
+  },
+].filter((testimonial) => testimonial.quote.trim() && testimonial.name.trim());
 
 function Testimonials() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -549,7 +567,6 @@ function Testimonials() {
     const viewport = trackRef.current;
     const track = viewport?.querySelector<HTMLElement>(".testimonial-track");
     if (!viewport || !track) return;
-    const mobile = window.matchMedia("(width < 40rem)");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = false;
     let duration = 1;
@@ -564,7 +581,7 @@ function Testimonials() {
       const progress = previous ? (Number(previous.currentTime ?? 0) % duration) / duration : 0;
       previous?.cancel();
       motionRef.current = null;
-      if (!mobile.matches || reducedMotion.matches) return;
+      if (reducedMotion.matches) return;
       const duplicate = track.children[TESTIMONIALS.length] as HTMLElement | undefined;
       const distance = duplicate?.offsetLeft ?? 0;
       if (!distance) return;
@@ -586,7 +603,6 @@ function Testimonials() {
     const resize = new ResizeObserver(rebuild);
     observer.observe(viewport);
     resize.observe(viewport);
-    mobile.addEventListener("change", rebuild);
     reducedMotion.addEventListener("change", rebuild);
     document.addEventListener("visibilitychange", syncPlayback);
     rebuild();
@@ -595,7 +611,6 @@ function Testimonials() {
       motionRef.current = null;
       observer.disconnect();
       resize.disconnect();
-      mobile.removeEventListener("change", rebuild);
       reducedMotion.removeEventListener("change", rebuild);
       document.removeEventListener("visibilitychange", syncPlayback);
     };
@@ -648,7 +663,18 @@ function Testimonials() {
                     <span className="block text-sm text-muted-foreground">{t.role}</span>
                   </span>
                   <span className="w-full font-display text-sm font-extrabold text-ink-soft">
-                    {t.company}
+                    {t.logo ? (
+                      <img
+                        src={t.logo}
+                        alt={t.company}
+                        width={t.logoWidth}
+                        height={t.logoHeight}
+                        loading="lazy"
+                        className="h-auto w-32 max-w-full object-contain"
+                      />
+                    ) : (
+                      t.company
+                    )}
                   </span>
                 </figcaption>
               </figure>
