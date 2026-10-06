@@ -1,204 +1,152 @@
-# Ekeep | Consultores & Auditores
+﻿# Ekeep — Captação de Financiamento Banco do Nordeste
 
-Site institucional da **Ekeep**, desenvolvido para apresentar os serviços de inventário de estoque e imobilizado, explicar a metodologia de trabalho e facilitar o contato comercial pelo WhatsApp.
+Landing page da **Ekeep Consultores** para apresentar a assessoria na captação de financiamento junto ao Banco do Nordeste (BNB), voltada a médias e grandes empresas de diferentes segmentos.
 
-A aplicação reúne conteúdo institucional, benefícios, etapas do processo, depoimentos e perguntas frequentes em uma landing page responsiva, com renderização no servidor. 
+O site explica as possibilidades de crédito, as dificuldades da captação e como a Ekeep apoia o planejamento, a identificação de linhas e a condução documental. O contato comercial acontece pelo WhatsApp. A aprovação e as condições de financiamento dependem da análise do banco.
 
-## Visão geral
+## Como o site funciona
 
-- Apresentação dos serviços de inventário de estoque e de bens patrimoniais.
-- Seções de diferenciais, riscos e processo de execução.
-- Depoimentos com movimento horizontal no mobile e grade estática no desktop.
-- Perguntas frequentes em acordeão.
-- Formulário que abre o WhatsApp do especialista com os dados preenchidos e o serviço selecionado.
-- Imagens adaptativas em WebP, com fallback em JPEG.
-- Navegação por teclado, foco visível e respeito à preferência por movimento reduzido.
+- Cabeçalho com logo transparente, link **Home** para o site institucional e navegação pelas seções. No celular, a navegação usa menu expansível.
+- Abertura com chamada para antecipar o financiamento, foto de reunião empresarial e botões para contato.
+- Cards com finalidades de financiamento: capital de giro, software, máquinas, imóveis, obras e investimentos em saúde, turismo, agronegócio, inovação e energia.
+- Banner sobre possibilidades de condições diferenciadas para empresas lideradas por mulheres, conforme os critérios do BNB.
+- Seção com seis dificuldades comuns da captação. O painel fotográfico lateral aparece somente em telas a partir de 1200 px.
+- Cinco diferenciais da Ekeep e apresentação das etapas do acompanhamento.
+- Formulário de contato, perguntas frequentes e rodapé com contatos e links rápidos.
+- Botão flutuante de WhatsApp disponível durante a navegação.
 
-> O formulário prepara a mensagem, mas o visitante precisa confirmar o envio no WhatsApp. Não há armazenamento em planilha ou banco de dados, nem dependência de Apps Script.
+A versão atual não possui seção de depoimentos.
+
+## Formulário e WhatsApp
+
+O formulário solicita nome, empresa, e-mail, WhatsApp com DDD, cidade/estado e finalidade do financiamento. O visitante também pode descrever sua necessidade.
+
+Os dados são validados no navegador com Zod. Após a validação, o formulário abre o WhatsApp com uma mensagem contendo as informações preenchidas. **O visitante precisa confirmar o envio no WhatsApp.** Abrir a conversa não significa que a mensagem já foi enviada.
+
+Não há armazenamento de leads em banco de dados, planilha ou CRM, nem envio automático de e-mail. O número de destino está na constante `WHATSAPP_NUMBER` em `src/components/ekeep/LeadForm.tsx`.
 
 ## Tecnologias
 
-| Tecnologia                       | Aplicação                               |
-| -------------------------------- | --------------------------------------- |
-| React 19 e TypeScript            | Componentes e tipagem                   |
-| TanStack Start e TanStack Router | Renderização no servidor e roteamento   |
-| Vite 8                           | Desenvolvimento e build                 |
-| Tailwind CSS 4                   | Estilos e responsividade                |
-| Nitro                            | Servidor de produção para Node.js       |
-| Lucide React e Radix UI          | Ícones e componentes de interface       |
-| Sharp                            | Geração de variantes de imagens         |
-| Playwright                       | Verificações automatizadas no navegador |
-| ESLint e Prettier                | Análise e formatação do código          |
+| Tecnologia | Uso |
+| --- | --- |
+| React 19 e TypeScript | Componentes e tipagem |
+| TanStack Start e Router | Renderização no servidor e roteamento |
+| Vite 8 e Nitro | Desenvolvimento e build para hospedagem |
+| Tailwind CSS 4 | Identidade visual e responsividade |
+| Zod | Validação dos dados do formulário |
+| Lucide React e Radix UI | Ícones e componentes de interface |
+| Sharp | Otimização de imagens |
+| Playwright | Testes de layout e interações no navegador |
 
-As versões das dependências estão definidas em `package.json` e fixadas em `package-lock.json`.
+Use npm e o `package-lock.json` versionado. O React Start está fixado em `1.168.60`, com `start-server-core` corrigido em `1.169.39` no lockfile.
 
-## Requisitos
+## Execução local
 
-- **Node.js 24**, versão utilizada na validação do projeto.
-- **npm**, para instalação e execução dos scripts.
-- **Microsoft Edge**, para executar os testes de navegador com a configuração padrão.
-
-A execução local atual não exige arquivo `.env`, credenciais de API ou banco de dados.
-
-## Instalação e desenvolvimento
-
-Na pasta do projeto, instale as dependências:
+Requisitos: Node.js 24, npm e Microsoft Edge para os testes de navegador na configuração padrão.
 
 ```sh
 npm ci
-```
-
-Inicie o servidor de desenvolvimento:
-
-```sh
 npm run dev
 ```
 
-Acesse **http://localhost:5173**. As alterações nos arquivos são refletidas automaticamente no navegador.
+Acesse `http://localhost:5173`. O servidor aceita conexões da rede local e atualiza o site automaticamente quando o código muda. Em outro dispositivo na mesma rede, use `http://<IP-do-computador>:5173`.
 
-O servidor também aceita conexões da rede local. Para visualizar em outro dispositivo conectado à mesma rede, utilize `http://<IP-do-computador>:5173`. A porta está configurada como exclusiva; caso esteja ocupada, encerre o processo anterior ou escolha outra:
+A porta 5173 é exclusiva. Para escolher outra:
 
 ```sh
 npm run dev -- --port 5174
 ```
 
-No PowerShell, se a execução de `npm.ps1` estiver bloqueada, utilize `npm.cmd` no lugar de `npm`.
+No PowerShell, use `npm.cmd` no lugar de `npm` caso a política de execução bloqueie `npm.ps1`. A execução local não exige banco de dados ou credenciais de API.
 
-## Comandos disponíveis
+## Comandos
 
-| Comando                   | Descrição                                            |
-| ------------------------- | ---------------------------------------------------- |
-| `npm run dev`             | Inicia o servidor com atualização automática         |
-| `npm run build`           | Gera o build de produção                             |
-| `npm run build:dev`       | Gera um build no modo de desenvolvimento             |
-| `npm run preview`         | Abre uma prévia local do build                       |
-| `npm start`               | Executa o servidor de produção previamente compilado |
-| `npm run typecheck`       | Verifica os tipos sem gerar arquivos                 |
-| `npm run lint`            | Executa a análise estática do código                 |
-| `npm run format`          | Formata os arquivos do projeto                       |
-| `npm run images:optimize` | Recria as variantes WebP das imagens                 |
-| `npm run test:responsive` | Verifica layout e interações em múltiplas larguras   |
+| Comando | Função |
+| --- | --- |
+| `npm run dev` | Desenvolvimento com atualização automática |
+| `npm run typecheck` | Verificação de TypeScript |
+| `npm run build` | Build de produção |
+| `npm run build:dev` | Build em modo de desenvolvimento |
+| `npm run preview` | Prévia do build, conforme o preset de hospedagem |
+| `npm run lint` | Análise estática |
+| `npm run format` | Formatação dos arquivos |
+| `npm run test:responsive` | Verificação de layout e interações |
+| `npm run images:optimize` | Geração de variantes das imagens legadas listadas no script |
 
-## Estrutura do projeto
+O script `npm start` requer uma saída Node em `.output/server/index.mjs`; ele não serve os builds atuais de Cloudflare Pages ou Vercel.
 
-```text
-public/                     # Arquivos públicos e favicon
-scripts/                    # Otimização de imagens e testes de navegador
-src/
-  assets/                   # Imagens e marcas
-    responsive/             # Variantes WebP geradas
-  components/
-    ekeep/                  # Componentes específicos do site
-    ui/                     # Componentes reutilizáveis de interface
-  hooks/                    # Hooks compartilhados
-  lib/                      # Utilitários e tratamento de erros
-  routes/
-    __root.tsx              # Documento HTML, metadados e telas de erro
-    index.tsx               # Conteúdo e seções da landing page
-  router.tsx                # Configuração do roteador
-  routeTree.gen.ts           # Árvore de rotas gerada automaticamente
-  server.ts                 # Entrada do servidor e tratamento de falhas
-  start.ts                  # Middleware e proteção CSRF
-  styles.css                # Identidade visual e regras responsivas
-vite.config.ts              # Plugins, resolução de caminhos e servidor local
-RESPONSIVIDADE.md            # Documentação técnica de layout e validação
-```
+## Onde editar
 
-`src/routeTree.gen.ts` é gerado automaticamente e não deve ser editado manualmente.
+| Conteúdo ou configuração | Arquivo |
+| --- | --- |
+| Textos, finalidades, diferenciais, etapas, FAQ, menu e rodapé | `src/routes/index.tsx` |
+| Formulário e mensagem de WhatsApp | `src/components/ekeep/LeadForm.tsx` |
+| Regras e opções aceitas pelo formulário | `src/lib/lead-schema.ts` |
+| Cards de credenciais | `src/components/ekeep/Credentials.tsx` |
+| Logo do cabeçalho | `src/components/ekeep/HeaderLogo.tsx` |
+| Logo do rodapé | `src/components/ekeep/Logo.tsx` |
+| Cores, tipografia, enquadramento das fotos e responsividade | `src/styles.css` |
+| Imagens adaptativas | `src/components/ekeep/ResponsiveImage.tsx` e `src/assets/responsive/` |
+| Foto do banner de mulheres e painel de dificuldades | `public/businesswoman-financing.webp` e `public/financing-planning-team.webp` |
+| Favicon | `public/favicon-financing.png` e sua referência em `src/routes/__root.tsx` |
+| SEO da landing page | `src/lib/seo.ts` |
+| Documento HTML e tratamento de erros | `src/routes/__root.tsx` |
+| Preset de hospedagem e servidor local | `vite.config.ts` |
+| Especificações visuais de referência | `docs/` |
 
-## Manutenção do conteúdo
+Ao mudar as opções de financiamento, atualize tanto o formulário quanto o schema. Ao trocar fotografias, mantenha também as variantes WebP correspondentes. O script `images:optimize` ainda lista as imagens do projeto original; as novas imagens `hero-financing`, `financing-meeting` e `solar-engineer` precisam ser incluídas nele antes de usar esse comando para regenerá-las.
 
-| Alteração                                         | Local principal                                               |
-| ------------------------------------------------- | ------------------------------------------------------------- |
-| Textos, serviços, etapas, depoimentos e FAQ       | `src/routes/index.tsx`                                        |
-| Cards de experiência, governança e acompanhamento | `src/components/ekeep/Credentials.tsx`                        |
-| Campos e mensagem do formulário                   | `src/components/ekeep/LeadForm.tsx`                           |
-| Número de destino do WhatsApp                     | Constante `WHATSAPP_NUMBER` em `LeadForm.tsx`                 |
-| Número exibido no rodapé                          | `src/routes/index.tsx`                                        |
-| Logomarca                                         | `src/components/ekeep/Logo.tsx` e `src/assets/`               |
-| Favicon                                           | `public/favicon-ekeep.svg`                                    |
-| Metadados e fontes                                | `src/routes/__root.tsx` e metadados de `src/routes/index.tsx` |
-| Cores, tipografia, espaçamentos e breakpoints     | `src/styles.css`                                              |
+`src/routeTree.gen.ts` é gerado automaticamente. Os documentos em `docs/` registram referências de design; alterações posteriores solicitadas no site podem divergir dessas especificações.
 
-Ao substituir as fotografias de origem, execute `npm run images:optimize` e inclua as variantes geradas em `src/assets/responsive/` junto à alteração.
+## SEO e domínio
 
-## Qualidade e testes
+Defina `VITE_SITE_URL` com a URL pública definitiva, por exemplo `https://seu-dominio.com.br/`, antes do build. Essa variável configura a URL canônica, `og:url` e a URL nos dados estruturados. Sem ela, esses campos de URL são omitidos.
 
-Antes de disponibilizar uma alteração, execute:
+O título, a descrição e os dados estruturados descrevem a assessoria de financiamento da Ekeep. `public/robots.txt` permite indexação. Não há sitemap versionado para o novo domínio; o sitemap antigo de inventário foi removido.
+
+Não versione arquivos `.env` ou credenciais. Uma mudança em variável `VITE_*` exige novo build para refletir no site.
+
+## Validação
 
 ```sh
 npm run typecheck
-npm run lint
 npm run build
 ```
 
-Com o servidor de desenvolvimento ativo, execute os testes de navegador em outro terminal:
+Com o servidor de desenvolvimento ativo, execute em outro terminal:
 
 ```sh
 npm run test:responsive
-node scripts/check-brand-carousel.mjs
 ```
 
-A verificação responsiva cobre **17 larguras entre 192 e 3440 pixels**, incluindo overflow, áreas de toque, sobreposição entre cards e imagem, menu, FAQ e campos obrigatórios. O teste complementar verifica a animação dos depoimentos, movimento reduzido, grade desktop, logo e favicon.
+Os testes cobrem 17 larguras de 192 a 3440 px, overflow, áreas de toque, sobreposição entre cards e foto, menu, FAQ, campos obrigatórios e mensagem de financiamento preparada para o WhatsApp. O teste intercepta a abertura do WhatsApp e não envia mensagens.
 
-Relatórios e capturas são gravados em `artifacts/responsive/`, diretório não versionado. Os testes automatizados não substituem a validação em dispositivos físicos e diferentes navegadores.
+Variáveis opcionais: `TEST_URL` para outro endereço de teste e `PLAYWRIGHT_CHANNEL` para outro canal de navegador instalado. Relatórios e capturas ficam em `artifacts/`, ignorado pelo Git.
 
-O script `check-responsive.mjs` aceita:
+O script legado `check-brand-carousel.mjs` verifica depoimentos do projeto original e não deve ser usado como validação desta landing page, pois a seção foi removida.
 
-| Variável             | Padrão                  | Finalidade                              |
-| -------------------- | ----------------------- | --------------------------------------- |
-| `TEST_URL`           | `http://localhost:5173` | Endereço da aplicação sob teste         |
-| `PLAYWRIGHT_CHANNEL` | `msedge`                | Canal de navegador instalado a utilizar |
+## Publicação na Vercel
 
-O teste `check-brand-carousel.mjs` utiliza Edge e `http://localhost:5173` diretamente.
+Repositório: [Adonai-Bonfim/ekeep-financiamento-BNB](https://github.com/Adonai-Bonfim/ekeep-financiamento-BNB). Branch de produção: `main`.
 
-Detalhes de arquitetura fluida, breakpoints e acessibilidade estão em [RESPONSIVIDADE.md](./RESPONSIVIDADE.md).
+O arquivo `vercel.json` identifica o framework como `tanstack-start`. Quando a variável de ambiente `VERCEL` está definida pela plataforma, `vite.config.ts` usa o preset Nitro `vercel`, gerando a saída em `.vercel/output/`.
 
-## Build e publicação no Cloudflare Pages
+Na configuração do projeto, use a raiz do repositório, instalação com `npm ci` e build com `npm run build`. Configure `VITE_SITE_URL` com o domínio definitivo. A pasta `.vercel/` é um artefato local e não deve ser versionada.
 
-O projeto usa o preset Nitro `cloudflare-pages`, preservando a renderização no servidor. O build gera `dist/`, incluindo assets, `_worker.js/` e `_routes.json`. O arquivo interno `_worker.js` é o servidor de Pages Functions; não significa publicação como um projeto Workers separado.
+Para validar localmente o build da Vercel no PowerShell:
 
-O projeto **ekeep-inventario** foi criado no Pages como **Direct Upload**, com endereço padrão `https://ekeep-inventario.pages.dev`. O Worker existente não é convertido pelo commit e permanece separado. Nesta modalidade, pushes no GitHub não publicam automaticamente: execute o comando de publicação abaixo após o build. Para automação, configure uma pipeline própria; se preferir a integração Git nativa, crie outro projeto Pages nessa modalidade.
-
-Para um projeto Pages com integração Git, use:
-
-| Campo | Valor |
-| --- | --- |
-| Branch de produção | `main` |
-| Framework preset | `None` |
-| Comando de build | `npm run build` |
-| Diretório de saída | `dist` |
-| Diretório raiz | raiz do repositório |
-| Versão Node (`NODE_VERSION`) | `24` |
-
-Não configure `npx wrangler deploy` no projeto Pages. A integração Git publica automaticamente após o build. Remova uma eventual variável antiga `NITRO_PRESET` do painel para não sobrescrever o preset deste projeto.
-
-O `wrangler.toml` versionado define o diretório de Pages, a data de compatibilidade e `nodejs_compat`. Não contém rotas de domínio, zone_id ou configuração de DNS. O Nitro também gera uma configuração interna em `dist/_worker.js/wrangler.json`, ajustando o caminho relativo para a mesma pasta dist.
-
-Validação local:
-```sh
-npm ci
-npm run typecheck
-npm run build
-npx wrangler pages dev dist
+```powershell
+$env:VERCEL = '1'
+npm.cmd run build
+Remove-Item Env:VERCEL
 ```
 
-Para desenvolvimento, continue usando `npm run dev`. O script antigo `npm start` atende somente um build Node e não deve ser usado para esta saída Pages. Nenhum script do package.json foi alterado.
+Se um deploy indicar React Start `1.168.32`, confira o repositório, a branch e o commit exibidos no painel. O código atual usa `1.168.60`; um redeploy de um commit antigo pode continuar usando a dependência antiga. Não use a variável de bypass de segurança como solução.
 
-Publicação do projeto Direct Upload criado:
-```sh
-npx wrangler pages deploy dist --project-name ekeep-inventario --branch main
-```
+A atualização do código no GitHub e o sucesso do build local não confirmam que o deploy remoto foi concluído; confira o status na Vercel.
 
-A primeira publicação no Pages fornece `NOME_DO_PROJETO.pages.dev`. O nome depende da disponibilidade e da escolha no painel; não é criado apenas pelo build local.
+## Build alternativo para Cloudflare Pages
 
-### Subdomínio com DNS no cPanel
+Sem `VERCEL`, a configuração atual usa o preset `cloudflare-pages` e gera a saída em `dist/`. O arquivo `wrangler.toml` pertence a esse fluxo alternativo. Esta documentação não presume que exista um projeto Cloudflare ou um domínio configurado para a landing page de financiamento.
 
-Depois de validar o endereço pages.dev:
-1. No projeto Pages, adicione `inventario.ekeepconsultores.com.br` em **Custom domains**.
-2. No cPanel, configure somente o CNAME `inventario` apontando para o endereço `NOME_DO_PROJETO.pages.dev` informado pela Cloudflare.
-3. Aguarde a validação do domínio e do certificado.
-
-Essa associação deve ser iniciada no Pages antes do CNAME. Não é necessário transferir nameservers, adicionar o domínio raiz como zona Cloudflare ou alterar registros do domínio principal/e-mail. Nenhum registro DNS é modificado pelo código ou pelo build. Se já existir registro para inventario, ajuste somente esse subdomínio ao fazer a troca.
-
-Referências: [integração Git](https://developers.cloudflare.com/pages/get-started/git-integration/), [configuração Wrangler para Pages](https://developers.cloudflare.com/pages/functions/wrangler-configuration/), [domínios externos](https://developers.cloudflare.com/pages/configuration/custom-domains/).
+Referências técnicas: [Nitro na Vercel](https://nitro.build/deploy/providers/vercel) e [correção de segurança do TanStack Start](https://tanstack.com/blog/tanstack-start-security-update-cve-2026-102989).
