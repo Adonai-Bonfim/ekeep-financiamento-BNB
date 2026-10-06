@@ -1,13 +1,30 @@
 import { z } from "zod";
 
-
 export const leadSchema = z.object({
   nome: z.string().trim().min(1).max(100),
   empresa: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(255),
-  whatsapp: z.string().trim().max(20).refine((value) => /^\+?[\d\s().-]+$/.test(value) && /^\d{10,15}$/.test(value.replace(/\D/g, ""))),
+  whatsapp: z
+    .string()
+    .trim()
+    .max(20)
+    .refine(
+      (value) => /^\+?[\d\s().-]+$/.test(value) && /^\d{10,15}$/.test(value.replace(/\D/g, "")),
+    ),
   cidade: z.string().trim().min(1).max(80),
-  servico: z.enum(["Inventário de Imobilizado", "Inventário de Estoque", "Relatório de Avaliação de Imóvel", "Avaliação de Impairment", "Ainda não sei"]),
+  servico: z.enum([
+    "Capital de giro",
+    "Aquisição de imóvel empresarial",
+    "Máquinas e equipamentos",
+    "Construção, reformas e ampliação",
+    "Saúde",
+    "Software",
+    "Energia solar e sustentabilidade",
+    "Inovação",
+    "Turismo",
+    "Agronegócio",
+    "Ainda não sei",
+  ]),
   necessidade: z.string().trim().max(1000),
 });
 

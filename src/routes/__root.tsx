@@ -75,7 +75,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Ekeep Consultores | Inventário de Estoque e Imobilizado" },
+      { title: "Captação de Financiamento Banco do Nordeste | Ekeep" },
       { name: "author", content: "Ekeep Consultores" },
       {
         name: "google-site-verification",
@@ -87,7 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon-ekeep.png", type: "image/png", sizes: "96x96" },
+      { rel: "icon", href: "/favicon-financing.png", type: "image/png", sizes: "96x96" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

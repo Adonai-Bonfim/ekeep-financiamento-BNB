@@ -12,5 +12,3 @@ Allow: /
 
 User-agent: *
 Allow: /
-
-Sitemap: https://inventario.ekeepconsultores.com.br/sitemap.xml

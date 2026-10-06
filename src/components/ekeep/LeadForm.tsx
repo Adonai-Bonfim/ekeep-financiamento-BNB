@@ -42,13 +42,13 @@ export function LeadForm() {
     setLead((prev) => ({ ...prev, [key]: e.target.value }));
 
   const message = [
-    "Olá, Ekeep! Gostaria de solicitar um diagnóstico.",
+    "Olá, Ekeep! Gostaria de avaliar a captação de financiamento no Banco do Nordeste.",
     lead.nome && `Nome: ${lead.nome}`,
     lead.empresa && `Empresa: ${lead.empresa}`,
     lead.email && `E-mail: ${lead.email}`,
     lead.whatsapp && `WhatsApp: ${lead.whatsapp}`,
     lead.cidade && `Cidade/Estado: ${lead.cidade}`,
-    lead.servico && `Serviço de interesse: ${lead.servico}`,
+    lead.servico && `Finalidade do financiamento: ${lead.servico}`,
     lead.necessidade && `Necessidade: ${lead.necessidade}`,
   ]
     .filter(Boolean)
@@ -154,7 +154,7 @@ export function LeadForm() {
           </div>
           <div>
             <label className={labelClass} htmlFor="servico">
-              Serviço de interesse <span className="text-primary">*</span>
+              Finalidade do financiamento <span className="text-primary">*</span>
             </label>
             <select
               id="servico"
@@ -164,10 +164,16 @@ export function LeadForm() {
               className={inputClass}
             >
               <option value="">Selecione uma opção</option>
-              <option>Inventário de Imobilizado</option>
-              <option>Inventário de Estoque</option>
-              <option>Relatório de Avaliação de Imóvel</option>
-              <option>Avaliação de Impairment</option>
+              <option>Capital de giro</option>
+              <option>Aquisição de imóvel empresarial</option>
+              <option>Máquinas e equipamentos</option>
+              <option>Construção, reformas e ampliação</option>
+              <option>Saúde</option>
+              <option>Software</option>
+              <option>Energia solar e sustentabilidade</option>
+              <option>Inovação</option>
+              <option>Turismo</option>
+              <option>Agronegócio</option>
               <option>Ainda não sei</option>
             </select>
           </div>
@@ -181,7 +187,7 @@ export function LeadForm() {
               maxLength={1000}
               value={lead.necessidade}
               onChange={set("necessidade")}
-              placeholder="Descreva sua necessidade..."
+              placeholder="Conte seu projeto, o valor estimado e quando precisa dos recursos..."
               className={inputClass}
             />
           </div>
@@ -192,17 +198,22 @@ export function LeadForm() {
             Solicitar contato <ArrowRight size={16} />
           </button>
           <p className="lead-message text-sm leading-relaxed text-muted-foreground">
-            Ao solicitar contato, o WhatsApp abrirá com os dados preenchidos. Confirme o envio
-            da mensagem para falar com um especialista da Ekeep.
+            Ao solicitar contato, o WhatsApp abrirá com os dados preenchidos. Confirme o envio da
+            mensagem para falar com um especialista da Ekeep.
           </p>
-          {error && <p role="alert" className="lead-message text-sm leading-relaxed text-red-700">{error}</p>}
+          {error && (
+            <p role="alert" className="lead-message text-sm leading-relaxed text-red-700">
+              {error}
+            </p>
+          )}
           {sent && (
             <p
               role="status"
               className="lead-message flex items-start gap-2 rounded-md bg-accent p-3 text-sm font-medium text-ink"
             >
               <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-primary" />
-              Mensagem preparada. Confirme o envio no WhatsApp. Se ele não abrir, permita pop-ups e toque novamente em “Solicitar contato”.
+              Mensagem preparada. Confirme o envio no WhatsApp. Se ele não abrir, permita pop-ups e
+              toque novamente em “Solicitar contato”.
             </p>
           )}
         </div>

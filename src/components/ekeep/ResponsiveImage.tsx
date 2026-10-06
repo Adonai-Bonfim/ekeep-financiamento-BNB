@@ -8,13 +8,13 @@ const sources = import.meta.glob<string>("../../assets/responsive/*.webp", {
 });
 
 type Props = ImgHTMLAttributes<HTMLImageElement> & {
-  asset: "hero-warehouse" | "office-assets" | "stock-operator" | "worried-executive";
+  asset: "hero-warehouse" | "hero-financing" | "office-assets" | "stock-operator" | "worried-executive" | "financing-meeting" | "solar-engineer";
 };
 
 // Width descriptors let the browser select an asset using actual viewport/DPR.
 // The original image remains a fallback, including in environments without WebP.
 export function ResponsiveImage({ asset, sizes = "100vw", ...props }: Props) {
-  const widths = asset === "hero-warehouse" ? [480, 960, 1920] : [320, 640, 1024];
+  const widths = asset === "hero-warehouse" || asset === "hero-financing" ? [480, 960, 1920] : [320, 640, 1024];
   const srcSet = widths
     .map((width) => `${sources[`../../assets/responsive/${asset}-${width}.webp`]} ${width}w`)
     .join(", ");

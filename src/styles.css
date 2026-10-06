@@ -184,6 +184,12 @@ body:has(.landing) {
   width: clamp(7rem, 18vw, 14rem);
   max-width: 100%;
 }
+.site-header .brand-logo {
+  width: clamp(6rem, 15vw, 11rem);
+}
+.site-header {
+  -webkit-backdrop-filter: blur(12px);
+}
 .brand-logo-footer {
   background: white;
   padding: 0.5rem;
@@ -268,9 +274,113 @@ body:has(.landing) {
 }
 .hero-content {
   padding-block: clamp(2.5rem, 7vw, 6rem);
+  container-type: inline-size;
+}
+.hero-background-image {
+  object-position: 50% 30%;
+}
+@media (max-width: 39.99rem) {
+  .hero-background-image {
+    object-position: 58% 30%;
+  }
+}
+.financing-hero-title {
+  max-width: 52rem;
 }
 .hero-actions {
   margin-top: clamp(3rem, 8vh, 6rem);
+}
+@media (min-width: 24rem) and (max-width: 27rem) {
+  .hero-subtitle > span { display: block; }
+  .hero-subtitle > br, .hero-subtitle-period { display: none; }
+}
+.women-financing-banner {
+  display: grid;
+  grid-template-columns: 22% minmax(0, 1fr) 15rem;
+  overflow: hidden;
+  border: 1px solid #ffc5a3;
+  border-radius: 1rem;
+  background: #fff5ef;
+}
+.women-financing-photo {
+  position: relative;
+  min-height: 11rem;
+  overflow: hidden;
+}
+.women-financing-photo img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+}
+.women-financing-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 65%, #fff5ef);
+}
+.women-financing-photo::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 150%;
+  height: 190%;
+  top: -20%;
+  left: 5%;
+  border: 2px solid #ff8a3b;
+  border-radius: 50%;
+  transform: rotate(35deg);
+  pointer-events: none;
+}
+.women-financing-content {
+  position: relative;
+  padding: 1.25rem 1rem;
+}
+.women-financing-label {
+  display: inline-block;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid #ffc5a3;
+  border-radius: 0.25rem;
+  color: #b94300;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.women-financing-content h3 {
+  margin-top: 0.4rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.women-financing-content p {
+  margin-top: 0.5rem;
+  color: #606b7b;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.women-financing-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-block: 1.25rem;
+  padding-inline: 0.9rem;
+  border-left: 1px solid #ffe0cc;
+  color: var(--color-primary);
+}
+.women-financing-action .btn-base {
+  width: 100%;
+  padding-inline: 0.75rem;
+  font-size: 0.75rem;
+}
+@media (max-width: 63.99rem) {
+  .women-financing-banner { grid-template-columns: minmax(0, 1fr); }
+  .women-financing-photo { min-height: 15rem; overflow: hidden; }
+  .women-financing-photo img { object-position: center 30%; }
+  .women-financing-photo::after { background: linear-gradient(0deg, #fff5ef, transparent 25%); }
+  .women-financing-action { margin-top: 0; padding: 0 1rem 1rem; border-left: 0; }
 }
 .mobile-nav {
   max-height: calc(100dvh - 4.5rem);
@@ -344,6 +454,40 @@ body:has(.landing) {
     font-size: 0.875rem;
     line-height: 1.5;
   }
+}
+.financing-challenges { background: #fcfcfd; }
+.challenges-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+.challenges-eyebrow { display: flex; align-items: center; gap: 0.75rem; }
+.challenges-eyebrow::before { content: ""; width: 2rem; height: 2px; flex-shrink: 0; background: var(--color-primary); }
+.challenges-title { font-size: clamp(1.6rem, 2.8vw, 2.8rem); line-height: 1.1; }
+.challenges-intro { color: #555d70; font-size: 1.05rem; line-height: 1.5; }
+.challenges-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+.challenge-card { padding: clamp(1rem, 1.5vw, 1.5rem); border: 1px solid #edf0f4; border-radius: 0.75rem; background: white; box-shadow: 0 6px 24px #18253b04; }
+.challenge-icon { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; border-radius: 0.75rem; background: #fff0e6; color: var(--color-primary); flex-shrink: 0; }
+.challenge-card h3 { margin-top: 0.75rem; font-size: 1.1rem; font-weight: 700; line-height: 1.25; }
+.challenge-card p { margin-top: 1rem; font-size: 1rem; color: #555d70; line-height: 1.5; }
+.challenges-visual { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 18rem; min-width: 0; overflow: hidden; border-radius: 2rem; padding: 1.25rem; background: #222a30; }
+.challenges-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.challenges-visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, #0009, transparent 40%, #4a241c33); pointer-events: none; }
+.challenges-photo-message { position: relative; z-index: 1; align-self: flex-end; max-width: 14rem; padding-left: 1rem; border-left: 2px solid var(--color-primary); color: white; font-size: 1.1rem; line-height: 1.4; }
+.challenges-support { position: relative; z-index: 1; display: flex; align-items: flex-start; gap: 0.85rem; margin-top: auto; padding: 1.1rem; border-radius: 1rem; background: #fffaf6f7; box-shadow: 0 10px 30px #20151015; }
+.challenges-support > div { border-left: 1px solid var(--color-primary); padding-left: 0.85rem; min-width: 0; }
+.challenges-support h3 { font-size: 1.1rem; line-height: 1.25; font-weight: 800; }
+.challenges-support p { margin-top: 0.5rem; color: #555d70; font-size: 0.95rem; line-height: 1.5; }
+@media (min-width: 40rem) { .challenges-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 75rem) {
+  .challenges-layout { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+  .challenges-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 74.99rem) {
+  .challenges-visual { display: none; }
+}
+@media (max-width: 39.99rem) {
+  .challenges-visual { padding: 1rem; gap: 22rem; }
+  .challenges-support { flex-direction: column; }
+  .challenges-support > div { border-left: 0; padding-left: 0; }
+  .challenges-photo { height: 31rem; object-position: center top; }
+  .challenges-visual::after { bottom: auto; height: 15rem; }
 }
 .risks-layout {
   display: grid;
@@ -434,6 +578,13 @@ body:has(.landing) {
 }
 /* Intermediate widths keep generous card widths; five columns start only
    when every differential can retain a readable title and description. */
+@media (hover: hover) and (pointer: fine) {
+  .differential-card { transition: border-color 180ms ease; }
+  .differential-card:hover { border-color: var(--color-primary); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .differential-card { transition: none; }
+}
 @media (min-width: 48rem) {
   .differentials-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

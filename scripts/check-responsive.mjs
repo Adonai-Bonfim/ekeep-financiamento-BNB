@@ -53,10 +53,10 @@ try {
           width: el.getBoundingClientRect().width,
           height: el.getBoundingClientRect().height,
         }));
-      const image = document.querySelector(".risks-visual")?.getBoundingClientRect();
+      const image = document.querySelector(".challenges-visual")?.getBoundingClientRect();
       const riskOverlaps =
         image && image.width > 0
-          ? [...document.querySelectorAll(".risks-grid article")].filter((card) => {
+          ? [...document.querySelectorAll(".challenges-grid article")].filter((card) => {
               const r = card.getBoundingClientRect();
               return (
                 r.left < image.right &&
@@ -103,6 +103,28 @@ try {
     .locator("#whats, #cidade")
     .evaluateAll((els) => els.every((el) => el.required && !el.checkValidity()));
   if (!required) throw new Error("Required fields not validated");
+  await page.locator("#nome").fill("Teste de formulário");
+  await page.locator("#empresa").fill("Empresa de teste");
+  await page.locator("#email").fill("teste@example.com");
+  await page.locator("#whats").fill("71999999999");
+  await page.locator("#cidade").fill("Salvador/BA");
+  const financingOptions = await page.locator("#servico option").allTextContents();
+  if (financingOptions.length !== 12 || financingOptions.some((text) => /inventário/i.test(text)))
+    throw new Error("Financing options are incorrect");
+  await page.locator("#servico").selectOption({ label: "Capital de giro" });
+  await page.evaluate(() => {
+    window.open = (url) => {
+      window.__testWhatsappUrl = String(url);
+      return null;
+    };
+  });
+  await page.locator('#formulario button[type="submit"]').click();
+  const preparedUrl = await page.evaluate(() => window.__testWhatsappUrl);
+  if (!preparedUrl?.startsWith("https://wa.me/5571981948895?text="))
+    throw new Error("WhatsApp destination is incorrect");
+  const preparedMessage = new URL(preparedUrl).searchParams.get("text");
+  if (!preparedMessage?.includes("Banco do Nordeste") || !preparedMessage.includes("Capital de giro"))
+    throw new Error("Financing message is incorrect");
   await page.emulateMedia({ reducedMotion: "reduce" });
   if (
     (await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)) !==

@@ -3,38 +3,37 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  Award,
   BadgeCheck,
   BarChart3,
-  Box,
+  Coins,
+  Clock,
+  FileText,
+  Users,
+  RefreshCw,
+  TrendingUp,
   Building2,
   Check,
   ChevronDown,
   ClipboardList,
-  Headphones,
+  BriefcaseBusiness,
   Instagram,
   Linkedin,
   Mail,
   Menu,
   MessageCircle,
-  ScanLine,
   Search,
-  ShieldAlert,
-  ShoppingCart,
-  Sliders,
-  TrendingDown,
-  UploadCloud,
   X,
 } from "lucide-react";
 
 import { Logo } from "@/components/ekeep/Logo";
+import { HeaderLogo } from "@/components/ekeep/HeaderLogo";
 import { Credentials } from "@/components/ekeep/Credentials";
 import { ResponsiveImage } from "@/components/ekeep/ResponsiveImage";
 import { LeadForm, whatsappLink } from "@/components/ekeep/LeadForm";
-import heroImg from "@/assets/hero-warehouse.jpg";
-import officeImg from "@/assets/office-assets.jpg";
-import stockImg from "@/assets/stock-operator.jpg";
-import executiveImg from "@/assets/worried-executive.jpg";
+import heroImg from "@/assets/hero-financing.jpg";
+import solarEngineerImg from "@/assets/solar-engineer.jpg";
+import financingMeetingImg from "@/assets/financing-meeting.jpg";
+import stockImg from "@/assets/office-assets.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => landingSeo,
@@ -42,11 +41,15 @@ export const Route = createFileRoute("/")({
 });
 
 const NAV = [
-  { label: "Serviços", href: "#solucoes" },
+  { label: "Financiamentos", href: "#solucoes" },
   { label: "Como Funciona", href: "#processo" },
   { label: "Benefícios", href: "#diferenciais" },
-  { label: "Depoimentos", href: "#depoimentos" },
   { label: "Contato", href: "#contato" },
+];
+
+const HEADER_NAV = [
+  { label: "Home", href: "https://www.ekeepconsultores.com.br/" },
+  ...NAV,
 ];
 
 function Header() {
@@ -94,7 +97,7 @@ function Header() {
     };
   }, [open]);
   return (
-    <header className="site-header sticky top-0 z-50 border-b border-white/15 bg-black text-white">
+    <header className="site-header sticky top-0 z-50 border-b border-white/15 bg-black/60 backdrop-blur-md text-white">
       <div
         ref={headerBarRef}
         className="page-container grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 py-3"
@@ -105,11 +108,11 @@ function Header() {
           aria-label="Ekeep — início"
           onClick={() => setOpen(false)}
         >
-          <Logo dark />
+          <HeaderLogo />
         </a>
         <div className="flex items-center gap-2">
           <nav aria-label="Navegação principal" className="hidden items-center gap-6 xl:flex">
-            {NAV.map((item) => (
+            {HEADER_NAV.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
@@ -120,7 +123,7 @@ function Header() {
             ))}
           </nav>
           <a href="#contato" className="btn-base btn-primary hidden sm:inline-flex">
-            Solicitar Diagnóstico <ArrowRight size={16} />
+            Avaliar meu projeto <ArrowRight size={16} />
           </a>
           <button
             type="button"
@@ -141,7 +144,7 @@ function Header() {
           aria-label="Navegação móvel"
           className="mobile-nav border-t border-white/15 bg-black px-4 py-3 xl:hidden"
         >
-          {NAV.map((item) => (
+          {HEADER_NAV.map((item) => (
             <a
               key={item.href}
               href={item.href}
@@ -156,7 +159,7 @@ function Header() {
             onClick={() => setOpen(false)}
             className="btn-base btn-primary mt-3 w-full"
           >
-            Solicitar Diagnóstico
+            Avaliar meu projeto
           </a>
         </nav>
       )}
@@ -168,31 +171,35 @@ function Hero() {
   return (
     <section id="top" className="relative isolate overflow-hidden bg-ink">
       <ResponsiveImage
-        asset="hero-warehouse"
+        asset="hero-financing"
         src={heroImg}
-        alt="Operação de inventário em armazém"
+        alt="Profissionais analisando gráficos financeiros em uma reunião ao entardecer"
         width={1672}
         height={941}
         fetchPriority="high"
-        className="absolute inset-0 -z-10 h-full w-full object-cover"
+        className="hero-background-image absolute inset-0 -z-10 h-full w-full object-cover"
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/90 via-ink/65 to-ink/20" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-transparent to-black/40 sm:hidden" />
       <div className="page-container hero-content">
-        <h1 className="max-w-2xl hero-title font-extrabold text-background">
-          Controle real sobre o <span className="text-primary">patrimônio e o estoque</span>{" "}
-          <span className="block sm:inline">da sua empresa.</span>
+        <h1 className="financing-hero-title hero-title font-extrabold text-background">
+          <span className="block">Não deixe o crédito</span>{" "}
+          <span className="block text-primary">para a hora da urgência.</span>{" "}
+          <span className="block">Planeje o financiamento</span>{" "}
+          <span className="block text-primary">da sua empresa</span>{" "}
+          <span className="block">com antecedência</span>
         </h1>
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-background/75">
-          A Ekeep realiza projetos de consultoria especializados para identificar divergências, reduzir perdas, apoiar
-          auditorias{" "}<span className="block sm:inline">e transformar dados físicos em informação confiáveis para a sua gestão.</span>
+        <p className="hero-subtitle mt-5 max-w-3xl text-base leading-relaxed text-background/75">
+          A Ekeep simplifica o caminho até o financiamento, identificando as oportunidades de crédito do Banco do Nordeste e acompanhando cada etapa para que sua empresa mantenha o foco no crescimento.
         </p>
         <div className="hero-actions flex flex-wrap gap-3">
           <a href="#contato" className="btn-base btn-primary">
-            Solicitar Diagnóstico <ArrowRight size={16} />
+            Avaliar meu projeto <ArrowRight size={16} />
           </a>
           <a
-            href={whatsappLink("Olá, Ekeep! Gostaria de falar sobre inventário.")}
+            href={whatsappLink(
+              "Olá, Ekeep! Gostaria de falar sobre captação de financiamento no Banco do Nordeste.",
+            )}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-base btn-outline-light"
@@ -207,35 +214,34 @@ function Hero() {
 
 const SOLUTIONS = [
   {
-    asset: "office-assets" as const,
-    img: officeImg,
-    alt: "Escritório com ativos patrimoniais",
+    asset: "financing-meeting" as const,
+    img: financingMeetingImg,
+    alt: "Profissionais analisando gráficos financeiros em uma reunião",
     icon: Building2,
-    title: "Laudos e Inventários de Imobilizado",
-    subtitle: "Mais controle, visibilidade e segurança sobre os bens da sua empresa.",
+    title: "Financie os próximos passos da sua empresa.",
+    subtitle: "Conheça possibilidades de crédito para investir, modernizar e ampliar sua operação.",
     items: [
-      "Garantir controle dos bens da empresa",
-      "Reduzir exposição a furtos e desvios",
-      "Conhecer o estado de conservação e uso dos bens",
-      "Evitar compras desnecessárias por falta de visibilidade",
-      "Reduzir riscos de auditoria e divergências contábeis",
-      "Atender requisitos normativos e fiscais",
-      "Apoiar a apuração adequada da depreciação",
+      "Capital de giro.",
+      "Aquisição de software.",
+      "Máquinas e equipamentos",
+      "Aquisição de imóvel empresarial.",
+      "Construção, reformas e ampliações",
     ],
   },
   {
-    asset: "stock-operator" as const,
-    img: stockImg,
-    alt: "Operador conferindo itens no estoque",
-    icon: Box,
-    title: "Inventário de Estoque",
-    subtitle: "Mais precisão e segurança para a gestão do seu estoque.",
+    asset: "solar-engineer" as const,
+    img: solarEngineerImg,
+    alt: "Engenheiro inspecionando painéis de um parque solar com um tablet",
+    icon: BarChart3,
+    title: "Seu projeto pode ter uma linha de crédito específica.",
+    subtitle: "O Banco do Nordeste possui soluções para diferentes atividades e finalidades de investimento.",
     items: [
-      "Redução de rupturas e perdas de vendas",
-      "Menor exposição a furtos e desvios",
-      "Mais segurança em auditorias",
-      "Atendimento a requisitos normativos e fiscais",
-      "Posição de estoque mais confiável para decisões de compra",
+      "Saúde.",
+      "Turismo.",
+      "Agronegócio.",
+      "Inovação e tecnologia.",
+      "Energia solar e eficiência energética.",
+      "Equipamentos para redução de emissões."
     ],
   },
 ];
@@ -248,57 +254,73 @@ function Solutions() {
           <p className="eyebrow">Nossas soluções</p>
         </div>
         <div className="mt-3 flex flex-col items-start gap-3 text-left">
-          <h2 className="section-title font-extrabold">Soluções para diferentes necessidades.</h2>
+          <h2 className="section-title font-extrabold">O que sua empresa precisa financiar?</h2>
           <p className="text-sm text-muted-foreground">
-            Trabalhos especiais de imobilizado e estoque com metodologia, tecnologia e foco em resultados
-            para a sua empresa.
+            Possibilidades para investir, modernizar e expandir. A linha adequada depende do
+            enquadramento da empresa e do projeto.
           </p>
         </div>
 
         <div className="solutions-grid mt-8 grid gap-6">
-          {SOLUTIONS.map(
-            ({ asset, img, alt, icon: Icon, title, subtitle, items }) => (
-              <article
-                key={title}
-                className="group overflow-hidden rounded-xl border border-border bg-card shadow-soft transition hover:shadow-card solution-card"
-              >
-                <ResponsiveImage
-                  asset={asset}
-                  sizes="(min-width: 75rem) 11rem, (min-width: 60rem) 45vw, (min-width: 40rem) 30vw, 100vw"
-                  src={img}
-                  alt={alt}
-                  loading="lazy"
-                  width={1024}
-                  height={1024}
-                  className="solution-image"
-                />
-                <div className="min-w-0 flex-1 p-5">
-                  <div className="flex items-start gap-3">
-                    <Icon size={24} className="mt-0.5 shrink-0 text-primary" />
-                    <div className="min-w-0">
-                      <h3 className="text-lg font-bold">{title}</h3>
-                      <p className="text-sm text-muted-foreground">{subtitle}</p>
-                    </div>
+          {SOLUTIONS.map(({ asset, img, alt, icon: Icon, title, subtitle, items }) => (
+            <article
+              key={title}
+              className="group overflow-hidden rounded-xl border border-border bg-card shadow-soft transition hover:shadow-card solution-card"
+            >
+              <ResponsiveImage
+                asset={asset}
+                sizes="(min-width: 75rem) 11rem, (min-width: 60rem) 45vw, (min-width: 40rem) 30vw, 100vw"
+                src={img}
+                alt={alt}
+                loading="lazy"
+                width={1024}
+                height={1024}
+                className="solution-image"
+              />
+              <div className="min-w-0 flex-1 p-5">
+                <div className="flex items-start gap-3">
+                  <Icon size={24} className="mt-0.5 shrink-0 text-primary" />
+                  <div className="min-w-0">
+                    <h3 className="text-lg font-bold">{title}</h3>
+                    <p className="text-sm text-muted-foreground">{subtitle}</p>
                   </div>
-                  <ul className="mt-4 space-y-2">
-                    {items.map((item) => (
-                      <li key={item} className="flex items-center gap-2 text-sm text-ink-soft">
-                        <Check size={14} className="shrink-0 text-primary" strokeWidth={3} />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href="#contato"
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary"
-                  >
-                    Solicitar diagnóstico <ArrowRight size={16} />
-                  </a>
                 </div>
-              </article>
-            ),
-          )}
+                <ul className="mt-4 space-y-2">
+                  {items.map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-sm text-ink-soft">
+                      <Check size={14} className="shrink-0 text-primary" strokeWidth={3} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="#contato"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary"
+                >
+                  Avaliar meu projeto <ArrowRight size={16} />
+                </a>
+              </div>
+            </article>
+          ))}
         </div>
+        <aside className="women-financing-banner mt-6" aria-labelledby="women-financing-title">
+          <div className="women-financing-photo" aria-hidden="true">
+            <img src="/businesswoman-financing.webp" alt="" width={720} height={720} loading="lazy" />
+          </div>
+          <div className="women-financing-content">
+            <span className="women-financing-label">DESTAQUE</span>
+            <h3 id="women-financing-title">Sua empresa é liderada por mulheres?</h3>
+            <p>Algumas linhas de financiamento podem oferecer condições diferenciadas de cobertura para empresas com controle feminino, conforme os critérios do Banco do Nordeste.</p>
+            <p>Consulte as possibilidades para o perfil da sua empresa.</p>
+          </div>
+          <div className="women-financing-action">
+            <svg viewBox="0 0 96 64" width="80" height="54" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <g opacity="0.45"><rect x="9" y="23" width="12" height="18" rx="6" /><path d="M3 57v-7c0-5 5-7 12-7s12 2 12 7v7" /><rect x="75" y="23" width="12" height="18" rx="6" /><path d="M69 57v-7c0-5 5-7 12-7s12 2 12 7v7" /></g>
+              <path d="M33 39c-3-3-4-7-3-12l3-13c2-8 7-12 15-12s13 4 15 12l3 13c1 5 0 9-3 12M37 19c6 0 11-4 13-9 2 6 5 10 10 12v9c0 9-5 16-12 16s-12-7-12-16V19M39 43v7l-10 4c-4 2-5 4-5 8m33-19v7l10 4c4 2 5 4 5 8" />
+            </svg>
+            <a href="#contato" className="btn-base btn-primary">Quero entender essa condição <ArrowRight size={16} aria-hidden="true" className="shrink-0" /></a>
+          </div>
+        </aside>
       </div>
     </section>
   );
@@ -306,85 +328,82 @@ function Solutions() {
 
 const RISKS = [
   {
-    icon: ShoppingCart,
-    text: "Compras desnecessárias",
+    icon: Search,
+    text: "Não sabe por onde começar?",
     description:
-      "A falta de visibilidade pode levar a novas compras de itens que já existem na empresa, gerando desperdício e aumento de custos.",
+      "Existem várias linhas de crédito, mas nem sempre é simples identificar qual se aplica à sua empresa e se ela é elegível.",
   },
   {
-    icon: ClipboardList,
-    text: "Divergências em auditorias",
+    icon: Coins,
+    text: "Não sabe quanto pode financiar?",
     description:
-      "Diferenças entre o físico e os registros podem comprometer auditorias, gerar retrabalho e expor fragilidades nos controles internos.",
+      "Limites de financiamento, contrapartidas e garantias geram dúvidas antes mesmo de iniciar o processo.",
   },
   {
-    icon: BarChart3,
-    text: "Perdas e desvios",
+    icon: FileText,
+    text: "Burocracia e falta de tempo",
     description:
-      "Sem monitoramento adequado, furtos, extravios e inconsistências podem passar despercebidos por mais tempo e ampliar o prejuízo.",
+      "O processo é longo e documental, com diversas exigências que demandam tempo da sua equipe.",
   },
   {
-    icon: Box,
-    text: "Falta de controle dos bens",
+    icon: Users,
+    text: "Equipe interna não domina o assunto",
     description:
-      "A empresa perde clareza sobre localização, uso e estado de conservação dos ativos, dificultando gestão, manutenção e planejamento.",
+      "Sem familiaridade com as linhas de crédito e com os procedimentos, a equipe interna pode ter dificuldade para avançar.",
   },
   {
-    icon: ShieldAlert,
-    text: "Riscos fiscais e normativos",
+    icon: RefreshCw,
+    text: "Idas e vindas com o banco",
     description:
-      "Inconsistências em estoque e patrimônio podem afetar exigências contábeis, fiscais e normativas, aumentando a exposição a riscos.",
+      "Pendências, informações incompletas e solicitações adicionais geram retrabalho e desgaste durante a análise.",
   },
   {
-    icon: TrendingDown,
-    text: "Decisões baseadas em dados incorretos",
+    icon: Clock,
+    text: "O crédito não chega no tempo do negócio",
     description:
-      "Quando os números não refletem a realidade, compras, reposições, investimentos e decisões gerenciais passam a ser feitas com menos segurança.",
+      "Quando a busca começa na urgência, o financiamento pode demorar mais do que o necessário, levando a empresa a recorrer a alternativas mais caras.",
   },
 ];
 
 function Problem() {
   return (
-    <section className="bg-surface section-space">
-      <div className="page-container risks-layout">
+    <section className="financing-challenges section-space" aria-labelledby="challenges-title">
+      <div className="page-container challenges-layout">
         <div className="min-w-0">
-          <p className="eyebrow">Principais riscos</p>
-          <h2 className="mt-3 max-w-2xl section-title font-extrabold">
-            O que uma gestão sem visibilidade pode causar?
+          <p className="eyebrow challenges-eyebrow">O que pode dificultar a captação</p>
+          <h2 id="challenges-title" className="challenges-title mt-5 font-extrabold">
+            O financiamento da sua empresa não precisa ser um <span className="text-primary">processo complicado.</span>
           </h2>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-soft">
-            A falta de controle sobre estoque e patrimônio pode gerar impactos operacionais,
-            financeiros e contábeis.
+          <p className="challenges-intro mt-4">
+            Muitas empresas conhecem as oportunidades do Banco do Nordeste, mas encontram desafios que acabam atrasando seus projetos e consumindo o tempo da equipe.
           </p>
-          <div className="risks-grid mt-8 grid gap-4">
+          <div className="challenges-grid mt-7">
             {RISKS.map(({ icon: Icon, text, description }) => (
               <article
                 key={text}
-                className="flex flex-col items-start gap-3 rounded-lg border border-border bg-card p-5 shadow-soft"
+                className="challenge-card"
               >
                 <span
                   aria-hidden="true"
-                  className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-accent"
+                  className="challenge-icon"
                 >
-                  <Icon size={18} className="text-primary" />
+                  <Icon size={30} className="text-primary" />
                 </span>
-                <h3 className="text-base font-semibold leading-snug text-ink">{text}</h3>
-                <p className="text-sm leading-relaxed text-ink-soft">{description}</p>
+                <h3>{text}</h3>
+                <p>{description}</p>
               </article>
             ))}
           </div>
         </div>
-        <div className="risks-visual">
-          <ResponsiveImage
-            asset="worried-executive"
-            sizes="(min-width: 80rem) 23rem, 30vw"
-            src={executiveImg}
-            alt="Executivo analisando dados"
-            loading="lazy"
-            width={1024}
-            height={1024}
-            className="absolute inset-0 h-full w-full object-cover opacity-30 grayscale"
-          />
+        <div className="challenges-visual">
+          <img src="/financing-planning-team.webp" alt="" loading="lazy" width={960} height={1440} className="challenges-photo" />
+          <div className="challenges-support">
+            <span className="challenge-icon" aria-hidden="true"><TrendingUp size={38} /></span>
+            <div>
+              <h3>A Ekeep ajuda sua empresa a superar esses desafios.</h3>
+              <p>Da identificação das linhas à condução do processo com o Banco do Nordeste, para que você avance com mais segurança e menos desgaste.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -393,29 +412,29 @@ function Problem() {
 
 const DIFFS = [
   {
-    icon: Award,
-    title: "Mais de 20 anos de experiência",
-    text: "Sócios e profissionais capacitados, com atuação em projetos de diferentes portes, segmentos e níveis de complexidade.",
+    icon: Search,
+    title: "A linha de crédito certa",
+    text: "Identificamos as possibilidades de financiamento mais adequadas ao perfil da sua empresa e ao objetivo do projeto.",
+  },
+  {
+    icon: Clock,
+    title: "Planejamento no momento certo",
+    text: "Antecipamos a preparação do processo para que sua empresa não dependa do crédito apenas na hora da urgência.",
   },
   {
     icon: ClipboardList,
-    title: "Planejamento e pré-inventário",
-    text: "Apoio na definição do escopo, cronograma, metodologia e preparação da operação para uma execução mais organizada e segura.",
+    title: "Menos burocracia e retrabalho",
+    text: "Orientamos a documentação e acompanhamos as exigências do processo para reduzir pendências e desgaste.",
   },
   {
-    icon: BarChart3,
-    title: "Visão de controladoria e finanças",
-    text: "Os resultados são analisados considerando seus impactos na controladoria, nas finanças e no atendimento às normas contábeis.",
+    icon: MessageCircle,
+    title: "Interlocução com o Banco do Nordeste",
+    text: "Acompanhamos a comunicação com a instituição e ajudamos a dar mais clareza aos próximos passos da análise.",
   },
   {
-    icon: BadgeCheck,
-    title: "Relatório executivo de resultados",
-    text: "As informações são consolidadas de forma clara para facilitar a análise de divergências e apoiar a tomada de decisão.",
-  },
-  {
-    icon: Headphones,
-    title: "Suporte até a integração",
-    text: "A Ekeep acompanha o processo até a efetiva integração dos dados do inventário ao sistema do cliente.",
+    icon: BriefcaseBusiness,
+    title: "Sua equipe focada no negócio",
+    text: "Enquanto a Ekeep conduz a estratégia de captação, sua empresa mantém o foco na operação e nos investimentos.",
   },
 ];
 
@@ -429,19 +448,18 @@ function Differentials() {
             Por que contar com a Ekeep?
           </h2>
           <p className="text-sm text-background/70">
-            Da preparação do inventário à integração dos resultados, a Ekeep acompanha cada etapa
-            com experiência, planejamento e visão de negócio.
+            Da identificação das oportunidades de financiamento à condução do processo junto ao Banco do Nordeste, a Ekeep ajuda sua empresa a avançar com mais planejamento, organização e segurança.
           </p>
         </div>
         <div className="differentials-grid mt-8 grid gap-4">
           {DIFFS.map(({ icon: Icon, title, text }) => (
             <div
               key={title}
-              className="rounded-xl border border-background/10 bg-ink-soft p-5 transition hover:border-primary/50 differential-card"
+              className="rounded-xl border border-background/10 bg-ink-soft p-5 differential-card"
             >
               <Icon size={24} aria-hidden="true" className="text-primary" />
-              <h3 className="mt-4 text-base font-bold text-background">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-background/65">{text}</p>
+              <h3 className="mt-3 text-base font-bold leading-snug text-background">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-background/75">{text}</p>
             </div>
           ))}
         </div>
@@ -452,34 +470,28 @@ function Differentials() {
 
 const STEPS = [
   {
-    icon: ClipboardList,
-    title: "Planejamento",
-    text: "Entendimento da operação, definição do escopo e organização do cronograma para uma execução alinhada à realidade da empresa.",
+    title: "Entendimento inicial",
+    text: "Conhecemos a necessidade, o perfil da empresa e os objetivos do financiamento.",
   },
   {
-    icon: ScanLine,
-    title: "Levantamento físico",
-    text: "Contagem e identificação dos itens com metodologia adequada, tecnologia de apoio e equipe especializada.",
+    title: "Avaliação de enquadramento",
+    text: "Analisamos as linhas disponíveis e as condições aplicáveis ao porte, à atividade e à localização do projeto.",
   },
   {
-    icon: Search,
-    title: "Conciliação e análise",
-    text: "Cruzamento das informações levantadas com os registros existentes para identificar divergências e gerar visão crítica dos dados.",
+    title: "Estratégia de captação",
+    text: "Avaliamos valor pretendido, recursos próprios, garantias e prazo do negócio para orientar o planejamento.",
   },
   {
-    icon: Sliders,
-    title: "Tratamento das divergências",
-    text: "Classificação, investigação e ajustes das inconsistências encontradas, em conjunto com a equipe do cliente.",
+    title: "Preparação documental",
+    text: "Apoiamos a organização das informações e dos documentos necessários à solicitação.",
   },
   {
-    icon: BadgeCheck,
-    title: "Relatório executivo",
-    text: "Apresentação dos principais resultados, com informações organizadas para análise gerencial e tomada de decisão.",
+    title: "Condução com o banco",
+    text: "Fazemos a interlocução com o BNB e acompanhamos solicitações de informações e ajustes.",
   },
   {
-    icon: UploadCloud,
-    title: "Integração dos dados",
-    text: "Suporte até a efetiva carga das informações no sistema do cliente, garantindo continuidade e aproveitamento dos resultados.",
+    title: "Acompanhamento da análise",
+    text: "Apoiamos a resolução de pendências e o entendimento das etapas até a decisão da instituição.",
   },
 ];
 
@@ -491,8 +503,8 @@ function Process() {
         <div className="mt-3 flex flex-col gap-3">
           <h2 className="section-title font-extrabold">Como funciona.</h2>
           <p className="text-sm text-muted-foreground">
-            Um processo estruturado para transformar inventários em informações confiáveis, com
-            clareza em cada etapa e foco em resultado.
+            Um caminho estruturado para preparar a solicitação e acompanhar as etapas de análise do
+            financiamento.
           </p>
         </div>
         <ol className="process-grid mt-8 grid gap-6">
@@ -515,182 +527,11 @@ function Process() {
   );
 }
 
-const TESTIMONIALS = [
-  {
-    quote:
-      "A Ekeep nos ajudou a organizar um histórico complexo de fabricação interna, com um inventário rigoroso que deu suporte às auditorias e fortaleceu nossa governança. Trabalho sério, time comprometido e resultado que trouxe mais confiança aos nossos números.",
-    name: "Pablo Morelato",
-    role: "Head de Finanças",
-    company: "Wood. Group",
-    logo: "/wood-logo.jpeg",
-    logoWidth: 528,
-    logoHeight: 264,
-  },
-  {
-    quote:
-      "Trabalhamos com a Ekeep por duas oportunidades na realização do inventário do nosso ativo imobilizado e os resultados foram excelentes. É uma empresa extremamente pontual, técnica e competente. O trabalho trouxe total precisão para o nosso controle patrimonial e segurança para a gestão. Recomendo fortemente os serviços!",
-    name: "Vitor Accioly",
-    role: "Gerente Administrativo",
-    company: "Concessionária 2 de Julho",
-    logo: "/2-de-julho-logo.jpeg",
-    logoWidth: 696,
-    logoHeight: 401,
-  },
-  {
-    quote:
-      "A Ekeep Consultores tem realizado serviços recorrentes de inventário de estoque em unidades da BRK Ambiental e atendido ao escopo e prazos com responsabilidade e profissionalismo. Estes trabalhos têm sido de fundamental importância para a manutenção da confiabilidade das posições de estoque, assim como atendimento à auditoria.",
-    name: "Silver Paes",
-    role: "Suprimentos Corporativo",
-    company: "BRK Ambiental Participações S.A.",
-    logo: "/brk-logo.jpeg",
-    logoWidth: 702,
-    logoHeight: 289,
-  },
-  {
-    quote: "A execução dos trabalhos de avaliação de impairment e inventário patrimonial pela Ekeep foram realizados com excelência, comprometimento com os prazos acordados e de forma eficiente e objetiva, fornecendo uma maior confiabilidade e qualidade na gestão dos ativos da empresa.",
-    name: "Livia Santos",
-    role: "Líder de Contabilidade",
-    company: "Natuzzi Brasil",
-    logo: "/natuzzi-logo.jpeg",
-    logoWidth: 642,
-    logoHeight: 106,
-  },
-].filter((testimonial) => testimonial.quote.trim() && testimonial.name.trim());
-
-function Testimonials() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const motionRef = useRef<Animation | null>(null);
-  const pauseRef = useRef(false);
-  const [paused, setPaused] = useState(false);
-  pauseRef.current = paused;
-  useEffect(() => {
-    const viewport = trackRef.current;
-    const track = viewport?.querySelector<HTMLElement>(".testimonial-track");
-    if (!viewport || !track) return;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let visible = false;
-    let duration = 1;
-    const syncPlayback = () => {
-      const motion = motionRef.current;
-      if (!motion) return;
-      if (pauseRef.current || !visible || document.hidden) motion.pause();
-      else motion.play();
-    };
-    const rebuild = () => {
-      const previous = motionRef.current;
-      const progress = previous ? (Number(previous.currentTime ?? 0) % duration) / duration : 0;
-      previous?.cancel();
-      motionRef.current = null;
-      if (reducedMotion.matches) return;
-      const duplicate = track.children[TESTIMONIALS.length] as HTMLElement | undefined;
-      const distance = duplicate?.offsetLeft ?? 0;
-      if (!distance) return;
-      // Translate fractional pixels on the compositor, instead of rounding
-      // scrollLeft on every frame. Matching copies make the loop seamless.
-      duration = (distance / 12) * 1000;
-      const motion = track.animate(
-        [{ transform: "translate3d(0, 0, 0)" }, { transform: `translate3d(-${distance}px, 0, 0)` }],
-        { duration, iterations: Infinity, easing: "linear" },
-      );
-      motion.currentTime = progress * duration;
-      motionRef.current = motion;
-      syncPlayback();
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry?.isIntersecting ?? false;
-      syncPlayback();
-    });
-    const resize = new ResizeObserver(rebuild);
-    observer.observe(viewport);
-    resize.observe(viewport);
-    reducedMotion.addEventListener("change", rebuild);
-    document.addEventListener("visibilitychange", syncPlayback);
-    rebuild();
-    return () => {
-      motionRef.current?.cancel();
-      motionRef.current = null;
-      observer.disconnect();
-      resize.disconnect();
-      reducedMotion.removeEventListener("change", rebuild);
-      document.removeEventListener("visibilitychange", syncPlayback);
-    };
-  }, []);
-  useEffect(() => {
-    if (paused) motionRef.current?.pause();
-    else if (!document.hidden) motionRef.current?.play();
-  }, [paused]);
-  return (
-    <section id="depoimentos" className="bg-surface section-space">
-      <div className="page-container">
-        <p className="eyebrow">Depoimentos</p>
-        <div className="mt-3 flex flex-col gap-3">
-          <h2 className="section-title font-extrabold">Feedback de clientes.</h2>
-          <p className="text-sm text-muted-foreground">
-            Empresas que confiam na Ekeep para manter seus dados patrimoniais e de estoque mais
-            seguros e confiáveis.
-          </p>
-        </div>
-        <div
-          ref={trackRef}
-          className="testimonial-grid mt-8"
-          role="region"
-          aria-label="Depoimentos de clientes"
-          tabIndex={0}
-          onPointerDown={() => setPaused(true)}
-          onFocus={() => setPaused(true)}
-          onBlur={() => setPaused(false)}
-          onKeyDown={() => setPaused(true)}
-        >
-          <div className="testimonial-track grid gap-5">
-            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
-              <figure
-                key={`${t.name}-${i}`}
-                aria-hidden={i >= TESTIMONIALS.length ? true : undefined}
-                className={`min-w-0 rounded-xl border border-border bg-card p-5 shadow-soft ${i >= TESTIMONIALS.length ? "testimonial-copy" : ""}`}
-              >
-                <blockquote className="text-sm leading-relaxed text-ink-soft">
-                  “{t.quote}”
-                </blockquote>
-                <figcaption className="mt-5 flex flex-wrap items-center gap-3 border-t border-border pt-4">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-sm font-bold text-primary">
-                    {t.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-bold text-ink">{t.name}</span>
-                    <span className="block text-sm text-muted-foreground">{t.role}</span>
-                  </span>
-                  <span className="w-full font-display text-sm font-extrabold text-ink-soft">
-                    {t.logo ? (
-                      <img
-                        src={t.logo}
-                        alt={t.company}
-                        width={t.logoWidth}
-                        height={t.logoHeight}
-                        loading="lazy"
-                        className="h-auto w-32 max-w-full object-contain"
-                      />
-                    ) : (
-                      t.company
-                    )}
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Contact() {
   return (
     <section id="contato" className="relative isolate overflow-hidden bg-ink section-space">
       <ResponsiveImage
-        asset="stock-operator"
+        asset="office-assets"
         src={stockImg}
         alt=""
         aria-hidden="true"
@@ -704,16 +545,17 @@ function Contact() {
         <div>
           <p className="eyebrow">Fale com nosso time</p>
           <h2 className="mt-3 section-title font-extrabold text-background">
-            Solicite uma avaliação do seu <span className="text-primary">cenário.</span>
+            Planeje o crédito para o{" "}
+            <span className="text-primary">próximo passo da sua empresa.</span>
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-background/75">
-            Conte com a experiência da Ekeep para entender suas necessidades e indicar a melhor
-            solução para a sua empresa.
+            Conte seu objetivo de investimento. A Ekeep ajuda a avaliar as possibilidades de
+            financiamento e a organizar os próximos passos com o BNB.
           </p>
           <ul className="mt-6 space-y-3">
             {[
               "Atendimento consultivo e sem compromisso",
-              "Resposta rápida",
+              "Análise da necessidade e do enquadramento",
               "Direcionamento para o WhatsApp após o envio",
             ].map((item) => (
               <li key={item} className="flex items-center gap-3 text-sm text-background/85">
@@ -731,36 +573,36 @@ function Contact() {
 
 const FAQ = [
   {
-    q: "Qual o prazo médio para a realização do inventário?",
-    a: "Depende do volume de itens, número de unidades e complexidade da operação. Após o diagnóstico inicial, a Ekeep estrutura o cronograma conforme o cenário do cliente.",
+    q: "Quais empresas podem contar com a Ekeep?",
+    a: "A assessoria é voltada a médias e grandes empresas de diferentes segmentos. O acesso ao financiamento depende do enquadramento da empresa e do projeto nas regras de cada linha e na área de atuação do BNB.",
   },
   {
-    q: "A empresa precisa parar a operação durante o inventário?",
-    a: "A metodologia é definida de acordo com a realidade de cada operação, buscando reduzir impactos no funcionamento da empresa sempre que possível.",
+    q: "Como saber qual linha atende minha empresa?",
+    a: "A Ekeep avalia a finalidade do crédito, o porte, a atividade e a localização do projeto para orientar a escolha entre as alternativas disponíveis.",
   },
   {
-    q: "Quais empresas podem contratar o serviço?",
-    a: "A Ekeep atende fábricas, indústrias, condomínios empresariais, lojas, varejo, escritórios e empresas de diferentes segmentos.",
+    q: "Quanto posso solicitar e quais garantias preciso oferecer?",
+    a: "O valor financiável, os recursos próprios e as garantias variam conforme a linha, o porte, o projeto e a análise de crédito. A avaliação inicial ajuda a mapear essas condições.",
   },
   {
-    q: "Qual a diferença entre Inventário de Estoque e Inventário de Imobilizado?",
-    a: "O Inventário de Estoque verifica itens destinados à operação ou venda. Já o Inventário de Imobilizado é voltado aos bens patrimoniais da empresa, como máquinas, equipamentos, mobiliário e outros ativos.",
+    q: "Quanto tempo leva para o crédito ser liberado?",
+    a: "Não há um prazo único. A análise depende do cadastro, da documentação, do projeto e das exigências do banco. Por isso, recomendamos iniciar o relacionamento antes de o recurso se tornar urgente.",
   },
   {
-    q: "O inventário pode ser comparado com os dados do sistema?",
-    a: "Sim. Conforme o escopo contratado, os dados físicos podem ser confrontados com os registros existentes para identificação de divergências.",
+    q: "A Ekeep garante a aprovação do financiamento?",
+    a: "A Ekeep apoia a estratégia, a documentação e a interlocução com o banco. A aprovação, as condições e a liberação dos recursos são decisões exclusivas do Banco do Nordeste.",
   },
   {
-    q: "É possível integrar os resultados ao nosso ERP?",
-    a: "Sim. A Ekeep oferece suporte até a efetiva integração dos dados resultantes do inventário ao sistema do cliente, conforme o projeto.",
+    q: "Posso financiar um imóvel para sair do aluguel?",
+    a: "Há modalidades para aquisição de imóvel empresarial, mas elas possuem critérios específicos de porte, faturamento e características do imóvel. A Ekeep avalia se essa finalidade pode ser enquadrada no seu caso.",
   },
   {
-    q: "O serviço ajuda em processos de auditoria?",
-    a: "Sim. O inventário contribui para identificar divergências entre registros físicos, sistemas e informações contábeis, apoiando a preparação para auditorias.",
+    q: "Empresas controladas por mulheres têm condições diferenciadas?",
+    a: "Algumas linhas preveem benefícios para empresas controladas por mulheres ou com participação feminina superior a 40% do capital social. Percentuais, prazos e critérios dependem da linha e do porte; não se aplicam automaticamente a toda empresa.",
   },
   {
     q: "Como é feito o orçamento?",
-    a: "O valor depende de fatores como quantidade de itens, número de unidades, localização, tipo de inventário e complexidade da operação. O primeiro passo é avaliar o cenário da empresa.",
+    a: "O orçamento da assessoria considera o projeto, a necessidade de financiamento e a complexidade do acompanhamento. O primeiro passo é conversar com a Ekeep sobre o cenário da empresa.",
   },
 ];
 
@@ -780,12 +622,12 @@ function Faq() {
           <div className="faq-support mt-8 rounded-xl border border-border bg-surface p-5 sm:p-6">
             <h3 className="text-xl font-bold text-ink">Ainda ficou com alguma dúvida?</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Fale com um especialista da Ekeep e entenda qual formato de inventário faz mais
-              sentido para a sua operação.
+              Fale com a Ekeep sobre seu projeto e entenda as possibilidades de financiamento para
+              sua empresa.
             </p>
             <a
               href={whatsappLink(
-                "Olá, Ekeep! Gostaria de falar com um especialista para entender qual formato de inventário faz mais sentido para a minha operação.",
+                "Olá, Ekeep! Gostaria de avaliar as possibilidades de financiamento no Banco do Nordeste para minha empresa.",
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -862,7 +704,7 @@ function Footer() {
         <div>
           <h3 className="text-sm font-bold text-background">Links rápidos</h3>
           <ul className="footer-links mt-1 grid grid-cols-2 gap-x-3">
-            {NAV.map((item) => (
+            {HEADER_NAV.map((item) => (
               <li key={item.href}>
                 <a href={item.href} className="text-sm text-background/70 hover:text-primary">
                   {item.label}
@@ -908,15 +750,32 @@ function Landing() {
         <Credentials />
         <Solutions />
         <Problem />
+        <section className="bg-background section-space" aria-labelledby="planejamento-title">
+          <div className="page-container">
+            <p className="eyebrow">Antecipe o próximo passo</p>
+            <h2 id="planejamento-title" className="mt-3 section-title font-extrabold">
+              Busque o crédito antes de precisar dele.
+            </h2>
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink-soft">
+              O relacionamento com o banco, a preparação dos documentos e a análise de crédito levam
+              tempo. Começar com antecedência ajuda a alinhar a captação ao planejamento do negócio
+              e reduz a necessidade de recorrer, na urgência, a alternativas com juros mais altos.
+            </p>
+            <a href="#contato" className="btn-base btn-primary mt-6">
+              Planejar minha captação <ArrowRight size={16} />
+            </a>
+          </div>
+        </section>
         <Differentials />
         <Process />
-        <Testimonials />
         <Contact />
         <Faq />
       </main>
       <Footer />
       <a
-        href={whatsappLink("Olá, Ekeep! Gostaria de falar sobre inventário.")}
+        href={whatsappLink(
+          "Olá, Ekeep! Gostaria de falar sobre captação de financiamento no Banco do Nordeste.",
+        )}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar no WhatsApp"

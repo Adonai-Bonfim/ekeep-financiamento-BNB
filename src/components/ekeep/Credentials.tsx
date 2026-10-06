@@ -22,7 +22,7 @@ const credentials = [
   },
   {
     title: "Acompanhamento em todas as etapas",
-    description: "Planejamento, execução, análise e suporte até a efetiva utilização dos dados.",
+    description: "Avaliação das linhas, preparação documental e acompanhamento junto ao banco.",
     icon: "solutions",
   },
 ];
