@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     tanstackStart({ server: { entry: "server" } }),
-    nitro({ preset: "cloudflare-pages" }),
+    nitro({ preset: process.env['VERCEL'] ? "vercel" : "cloudflare-pages" }),
     react(),
   ],
   resolve: {
