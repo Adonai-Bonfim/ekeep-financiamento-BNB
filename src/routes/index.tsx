@@ -1,4 +1,5 @@
 import { landingSeo } from "@/lib/seo";
+import { trackEvent, type ContactLocation } from "@/lib/analytics";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -47,10 +48,7 @@ const NAV = [
   { label: "Contato", href: "#contato" },
 ];
 
-const HEADER_NAV = [
-  { label: "Home", href: "https://www.ekeepconsultores.com.br/" },
-  ...NAV,
-];
+const HEADER_NAV = [{ label: "Home", href: "https://www.ekeepconsultores.com.br/" }, ...NAV];
 
 function Header() {
   const [open, setOpen] = useState(false);
@@ -190,7 +188,9 @@ function Hero() {
           <span className="block">com antecedência</span>
         </h1>
         <p className="hero-subtitle mt-5 max-w-3xl text-base leading-relaxed text-background/75">
-          A Ekeep simplifica o caminho até o financiamento, identificando as oportunidades de crédito do Banco do Nordeste e acompanhando cada etapa para que sua empresa mantenha o foco no crescimento.
+          A Ekeep simplifica o caminho até o financiamento, identificando as oportunidades de
+          crédito do Banco do Nordeste e acompanhando cada etapa para que sua empresa mantenha o
+          foco no crescimento.
         </p>
         <div className="hero-actions flex flex-wrap gap-3">
           <a href="#contato" className="btn-base btn-primary">
@@ -234,14 +234,15 @@ const SOLUTIONS = [
     alt: "Engenheiro inspecionando painéis de um parque solar com um tablet",
     icon: BarChart3,
     title: "Seu projeto pode ter uma linha de crédito específica.",
-    subtitle: "O Banco do Nordeste possui soluções para diferentes atividades e finalidades de investimento.",
+    subtitle:
+      "O Banco do Nordeste possui soluções para diferentes atividades e finalidades de investimento.",
     items: [
-      "Saúde.",
       "Turismo.",
       "Agronegócio.",
       "Inovação e tecnologia.",
+      "Área de Saúde: Clínicas e Hospitais.",
       "Energia solar e eficiência energética.",
-      "Equipamentos para redução de emissões."
+      "Equipamentos para redução de emissões.",
     ],
   },
 ];
@@ -305,20 +306,47 @@ function Solutions() {
         </div>
         <aside className="women-financing-banner mt-6" aria-labelledby="women-financing-title">
           <div className="women-financing-photo" aria-hidden="true">
-            <img src="/businesswoman-financing.webp" alt="" width={720} height={720} loading="lazy" />
+            <img
+              src="/businesswoman-financing.webp"
+              alt=""
+              width={720}
+              height={720}
+              loading="lazy"
+            />
           </div>
           <div className="women-financing-content">
             <span className="women-financing-label">DESTAQUE</span>
             <h3 id="women-financing-title">Sua empresa é liderada por mulheres?</h3>
-            <p>Algumas linhas de financiamento podem oferecer condições diferenciadas de cobertura para empresas com controle feminino, conforme os critérios do Banco do Nordeste.</p>
+            <p>
+              Algumas linhas de financiamento podem oferecer condições diferenciadas de cobertura
+              para empresas com controle feminino, conforme os critérios do Banco do Nordeste.
+            </p>
             <p>Consulte as possibilidades para o perfil da sua empresa.</p>
           </div>
           <div className="women-financing-action">
-            <svg viewBox="0 0 96 64" width="80" height="54" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <g opacity="0.45"><rect x="9" y="23" width="12" height="18" rx="6" /><path d="M3 57v-7c0-5 5-7 12-7s12 2 12 7v7" /><rect x="75" y="23" width="12" height="18" rx="6" /><path d="M69 57v-7c0-5 5-7 12-7s12 2 12 7v7" /></g>
+            <svg
+              viewBox="0 0 96 64"
+              width="80"
+              height="54"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <g opacity="0.45">
+                <rect x="9" y="23" width="12" height="18" rx="6" />
+                <path d="M3 57v-7c0-5 5-7 12-7s12 2 12 7v7" />
+                <rect x="75" y="23" width="12" height="18" rx="6" />
+                <path d="M69 57v-7c0-5 5-7 12-7s12 2 12 7v7" />
+              </g>
               <path d="M33 39c-3-3-4-7-3-12l3-13c2-8 7-12 15-12s13 4 15 12l3 13c1 5 0 9-3 12M37 19c6 0 11-4 13-9 2 6 5 10 10 12v9c0 9-5 16-12 16s-12-7-12-16V19M39 43v7l-10 4c-4 2-5 4-5 8m33-19v7l10 4c4 2 5 4 5 8" />
             </svg>
-            <a href="#contato" className="btn-base btn-primary">Quero entender essa condição <ArrowRight size={16} aria-hidden="true" className="shrink-0" /></a>
+            <a href="#contato" className="btn-base btn-primary">
+              Quero entender essa condição{" "}
+              <ArrowRight size={16} aria-hidden="true" className="shrink-0" />
+            </a>
           </div>
         </aside>
       </div>
@@ -372,21 +400,17 @@ function Problem() {
         <div className="min-w-0">
           <p className="eyebrow challenges-eyebrow">O que pode dificultar a captação</p>
           <h2 id="challenges-title" className="challenges-title mt-5 font-extrabold">
-            O financiamento da sua empresa não precisa ser um <span className="text-primary">processo complicado.</span>
+            O financiamento da sua empresa não precisa ser um{" "}
+            <span className="text-primary">processo complicado.</span>
           </h2>
           <p className="challenges-intro mt-4">
-            Muitas empresas conhecem as oportunidades do Banco do Nordeste, mas encontram desafios que acabam atrasando seus projetos e consumindo o tempo da equipe.
+            Muitas empresas conhecem as oportunidades do Banco do Nordeste, mas encontram desafios
+            que acabam atrasando seus projetos e consumindo o tempo da equipe.
           </p>
           <div className="challenges-grid mt-7">
             {RISKS.map(({ icon: Icon, text, description }) => (
-              <article
-                key={text}
-                className="challenge-card"
-              >
-                <span
-                  aria-hidden="true"
-                  className="challenge-icon"
-                >
+              <article key={text} className="challenge-card">
+                <span aria-hidden="true" className="challenge-icon">
                   <Icon size={30} className="text-primary" />
                 </span>
                 <h3>{text}</h3>
@@ -396,12 +420,24 @@ function Problem() {
           </div>
         </div>
         <div className="challenges-visual">
-          <img src="/financing-planning-team.webp" alt="" loading="lazy" width={960} height={1440} className="challenges-photo" />
+          <img
+            src="/financing-planning-team.webp"
+            alt=""
+            loading="lazy"
+            width={960}
+            height={1440}
+            className="challenges-photo"
+          />
           <div className="challenges-support">
-            <span className="challenge-icon" aria-hidden="true"><TrendingUp size={38} /></span>
+            <span className="challenge-icon" aria-hidden="true">
+              <TrendingUp size={38} />
+            </span>
             <div>
               <h3>A Ekeep ajuda sua empresa a superar esses desafios.</h3>
-              <p>Da identificação das linhas à condução do processo com o Banco do Nordeste, para que você avance com mais segurança e menos desgaste.</p>
+              <p>
+                Da identificação das linhas à condução do processo com o Banco do Nordeste, para que
+                você avance com mais segurança e menos desgaste.
+              </p>
             </div>
           </div>
         </div>
@@ -448,7 +484,9 @@ function Differentials() {
             Por que contar com a Ekeep?
           </h2>
           <p className="text-sm text-background/70">
-            Da identificação das oportunidades de financiamento à condução do processo junto ao Banco do Nordeste, a Ekeep ajuda sua empresa a avançar com mais planejamento, organização e segurança.
+            Da identificação das oportunidades de financiamento à condução do processo junto ao
+            Banco do Nordeste, a Ekeep ajuda sua empresa a avançar com mais planejamento,
+            organização e segurança.
           </p>
         </div>
         <div className="differentials-grid mt-8 grid gap-4">
@@ -740,7 +778,32 @@ function Footer() {
 
 function Landing() {
   return (
-    <div className="landing min-h-screen bg-neutral-800">
+    <div
+      className="landing min-h-screen bg-neutral-800"
+      onClickCapture={(event) => {
+        const anchor = (event.target as Element).closest<HTMLAnchorElement>("a");
+        if (!anchor) return;
+        const location: ContactLocation = anchor.closest("header")
+          ? "header"
+          : anchor.closest("footer")
+            ? "footer"
+            : anchor.closest("#top")
+              ? "hero"
+              : anchor.classList.contains("floating-whatsapp")
+                ? "floating_button"
+                : anchor.closest(".faq-support")
+                  ? "faq"
+                  : anchor.closest("#contato")
+                    ? "final_cta"
+                    : "section";
+        const href = anchor.getAttribute("href");
+        if (href === "#contato" || href === "#formulario") {
+          trackEvent("cta_ir_para_formulario_click", { cta_location: location });
+        } else if (href?.startsWith("https://wa.me/")) {
+          trackEvent("whatsapp_click", { source: location });
+        }
+      }}
+    >
       <a href="#conteudo" className="skip-link">
         Pular para o conteúdo
       </a>

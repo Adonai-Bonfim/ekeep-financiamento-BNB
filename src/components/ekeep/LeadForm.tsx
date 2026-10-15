@@ -1,6 +1,7 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { leadSchema } from "@/lib/lead-schema";
+import { trackEvent, trackFormStart } from "@/lib/analytics";
 
 export const WHATSAPP_NUMBER = "5571981948895";
 
@@ -37,6 +38,17 @@ export function LeadForm() {
   const [lead, setLead] = useState<Lead>(EMPTY);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const invalidBatch = useRef(false);
+
+  function validationError() {
+    if (invalidBatch.current) return;
+    invalidBatch.current = true;
+    trackEvent("form_submit_error", { error_type: "validation" });
+    // Native invalid events for all fields occur synchronously in one attempt.
+    setTimeout(() => {
+      invalidBatch.current = false;
+    }, 0);
+  }
 
   const set = (key: keyof Lead) => (e: { target: { value: string } }) =>
     setLead((prev) => ({ ...prev, [key]: e.target.value }));
@@ -59,9 +71,11 @@ export function LeadForm() {
     setError("");
     const parsed = leadSchema.safeParse(lead);
     if (!parsed.success) {
+      validationError();
       setError("Confira os campos obrigatórios e informe o WhatsApp com DDD.");
       return;
     }
+    trackEvent("whatsapp_click", { source: "form_success" });
     window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
     setSent(true);
   }
@@ -69,6 +83,15 @@ export function LeadForm() {
   return (
     <form
       onSubmit={handleSubmit}
+      onInvalidCapture={validationError}
+      onFocusCapture={(event) => {
+        if (event.nativeEvent.isTrusted && event.target.matches("input, select, textarea")) {
+          trackFormStart(event.currentTarget.ownerDocument);
+        }
+      }}
+      onChangeCapture={(event) => {
+        if (event.nativeEvent.isTrusted) trackFormStart(event.currentTarget.ownerDocument);
+      }}
       className="lead-form min-w-0 rounded-xl bg-card shadow-card"
       id="formulario"
     >
@@ -194,7 +217,11 @@ export function LeadForm() {
         </fieldset>
 
         <div className="lead-actions grid min-w-0 gap-3">
-          <button type="submit" className="lead-message btn-base btn-primary w-full">
+          <button
+            type="submit"
+            onClick={() => trackEvent("cta_solicitar_contato_click")}
+            className="lead-message btn-base btn-primary w-full"
+          >
             Solicitar contato <ArrowRight size={16} />
           </button>
           <p className="lead-message text-sm leading-relaxed text-muted-foreground">
