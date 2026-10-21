@@ -5,6 +5,7 @@ const browser = await chromium.launch({ channel: "msedge", headless: true });
 try {
   for (const width of [390, 1440]) {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
+    await page.route("https://www.googletagmanager.com/**", (route) => route.abort());
     await page.addInitScript(() => {
       window.dataLayer = [{ event: "existing_queue" }];
       window.open = () => {
@@ -76,7 +77,7 @@ try {
       "cta_location",
       "error_type",
     ]);
-    for (const event of queue.slice(1)) {
+    for (const event of queue.slice(1).filter((event) => event.event !== "gtm.js")) {
       assert.ok(Object.keys(event).every((key) => allowed.has(key)));
       assert.equal(event.page_type, "landing_page_captacao_recursos");
     }

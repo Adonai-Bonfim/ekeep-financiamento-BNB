@@ -6,7 +6,9 @@
 - Eventos locais: `cta_solicitar_contato_click`, `cta_ir_para_formulario_click`, `form_start`, `form_submit_error` e `whatsapp_click`.
 - Origens existentes: `header`, `hero`, `section`, `faq`, `footer` e `floating_button`. A tentativa após validação usa `form_success`.
 - Teste automatizado: `node scripts/check-analytics.mjs`, com o servidor local ativo. Os testes interceptam o WhatsApp e não enviam mensagens.
-- Nenhum ID GTM/GA4 foi instalado. URL oficial e IDs aprovados ainda precisam ser informados.
+- Contêiner aprovado instalado no código local: `GTM-5NM344TC`, uma vez no head e com noscript no início do body.
+- GA4 aprovado para configurar pelo GTM: `G-C9W95VEP66`. Não há instalação direta de gtag.js no código.
+- Domínio oficial informado: `https://financiamento.ekeepconsultores.com.br/`. Endereço alternativo da Vercel: `https://ekeep-financiamentobnb.vercel.app/`.
 - A camada local não envia eventos ao GA4 por conta própria. As instruções de painel abaixo ainda precisam ser executadas após a confirmação do destino.
 - GTM Preview, GA4 DebugView, publicação das tags e conferência no domínio oficial estão pendentes. Nenhuma publicação é realizada por esta implementação.
 - A métrica é tentativa de contato após validação; não é comprovação de mensagem enviada ou venda.
