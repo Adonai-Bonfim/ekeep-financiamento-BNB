@@ -757,7 +757,10 @@ function Footer() {
             {[Linkedin, Instagram].map((Icon, i) => (
               <a
                 key={i}
-                href="#top"
+                href={[
+                  "https://www.linkedin.com/company/ekeep-consultores-auditores/",
+                  "https://www.instagram.com/ekeep.consultores",
+                ][i]}
                 aria-label={["LinkedIn da Ekeep", "Instagram da Ekeep"][i]}
                 className="grid h-11 w-11 place-items-center rounded-md border border-background/15 transition hover:border-primary hover:text-primary"
               >
